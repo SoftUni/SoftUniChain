@@ -1,0 +1,14 @@
+{
+  "name": "softuni-chain-node",
+  "version": "1.0.0",
+  "description": "Exercise / Testing Blockchain Network",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Blockchain Dev Camp Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
