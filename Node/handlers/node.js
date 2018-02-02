@@ -1,6 +1,10 @@
 /**
  * Created by milenradkov on 2/2/18.
  */
+import {Block} from "../model/block"
+import {Transaction} from "../model/transaction"
+let blockchain = require('./blockchain');
+
 module.exports.index = (req, res) => {
     res.send('SoftUni Chain Blockchain Node')
 }
@@ -135,6 +139,14 @@ module.exports.postNewTransaction = (req,res) => {
             "transactionHash": "cd8d9a345bb208c6f9b8acd6b8eefe6�20c8a"
         }
     )
+}
+
+module.exports.getMiningBlock = (req, res) => {
+    let minerAddress = req.params['address'];
+    let miningJob = blockchain.miningJob(minerAddress);
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(miningJob)
 }
 
 module.exports.getTransactionInfo = (req,res) => {
