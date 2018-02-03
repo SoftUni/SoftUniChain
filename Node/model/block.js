@@ -1,7 +1,7 @@
 /**
  * Created by milenradkov on 2/2/18.
  */
-export class Block {
+class Block {
     constructor(index, transactions, difficulty, prevBlockHash, minedBy, blockDataHash, nonce, dateCreated, blockHash) {
         // Index: number
         this.index = index;
@@ -31,3 +31,5 @@ export class Block {
         this.blockHash = blockHash;
     }
 }
+
+module.exports = Block

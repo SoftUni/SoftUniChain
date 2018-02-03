@@ -5,7 +5,7 @@ class MiningJob {
     constructor(index, transactions,){
 
     }
-    //masiv s hash na tranzackiite koito sme pratili na miniora
+    // masiv s hash na tranzackiite koito sme pratili na miniora
     // za da moje po kysno da gi izwadim ot pending transactions
 
     // 1 - wzimame wsichki pending tranzackii

@@ -1,8 +1,6 @@
 /**
  * Created by milenradkov on 2/2/18.
  */
-import {Block} from "../model/block"
-import {Transaction} from "../model/transaction"
 let blockchain = require('./blockchain');
 
 module.exports.index = (req, res) => {

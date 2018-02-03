@@ -1,8 +1,8 @@
 /**
  * Created by milenradkov on 2/2/18.
  */
-import {Block} from "../model/block"
-import {Transaction} from "../model/transaction"
+let Block = require("../model/block")
+let Transaction = require("../model/transaction")
 let CryptoJS = require("crypto-js");
 let main = require('../index');
 

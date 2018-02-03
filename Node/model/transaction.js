@@ -1,7 +1,7 @@
 /**
  * Created by milenradkov on 2/2/18.
  */
-export class Transaction {
+class Transaction {
         constructor(fromAddress,
                     toAddress,
                     transactionValue,
@@ -40,3 +40,5 @@ export class Transaction {
         this.paid = paid;
     }
 }
+
+module.exports = Transaction
