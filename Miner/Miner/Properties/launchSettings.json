@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Miner": {
+      "commandName": "Project",
+      "commandLineArgs": "http://127.0.0.1:5555 625364567345826452645236"
+    }
+  }
+}

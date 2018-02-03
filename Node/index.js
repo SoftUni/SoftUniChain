@@ -4,6 +4,8 @@ const bodyParser = require("body-parser")
 let CryptoJS = require("crypto-js");
 let handlers = require('./handlers')
 
+import {Block} from "./model/block"
+
 const port = 5555
 const app = express()
 
