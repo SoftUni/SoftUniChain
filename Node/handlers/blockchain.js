@@ -6,12 +6,12 @@ import {Transaction} from "../model/transaction"
 let CryptoJS = require("crypto-js");
 let main = require('../index');
 
-module.exports.calculateHash = (index, previousHash, timestamp, data, nonce) => {
-        return CryptoJS.SHA256(index + previousHash + timestamp + data + nonce).toString();
+module.exports.calculateHash = (index, prevBlockHash, dateCreated, transactions, nonce) => {
+        return CryptoJS.SHA256(index + prevBlockHash + dateCreated + transactions + nonce).toString();
 }
 
 module.exports.calculateHashForBlock = (block) => {
-        return this.calculateHash(block.index, block.previousHash, block.timestamp, block.data, block.nonce);
+        return this.calculateHash(block.index, block.prevBlockHash, block.dateCreated, block.transactions, block.nonce);
 }
 
 module.exports.addBlock = (newBlock) => {
@@ -22,36 +22,51 @@ module.exports.addBlock = (newBlock) => {
 
 module.exports.isValidNewBlock = (newBlock, previousBlock) => {
         if (previousBlock.index + 1 !== newBlock.index) {
-            console.log('invalid index');
+            console.log('Invalid index!');
             return false;
-        } else if (previousBlock.hash !== newBlock.previousHash) {
-            console.log('invalid previoushash');
+        }
+
+        if (previousBlock.hash !== newBlock.previousHash) {
+            console.log('Invalid previous block hash!');
             return false;
-        } else if (this.calculateHashForBlock(newBlock) !== newBlock.hash) {
+        }
+
+        if (this.calculateHashForBlock(newBlock) !== newBlock.hash) {
             console.log(typeof (newBlock.hash) + ' ' + typeof this.calculateHashForBlock(newBlock));
-            console.log('invalid hash: ' + this.calculateHashForBlock(newBlock) + ' ' + newBlock.hash);
+            console.log('Invalid hash: ' + this.calculateHashForBlock(newBlock) + ' ' + newBlock.hash);
             return false;
         }
         return true;
 }
 
-module.exports.generateNextBlock = (blockData) => {
+module.exports.generateNextBlock = (transactions) => {
         let previousBlock = this.getLatestBlock();
         let nextIndex = previousBlock.index + 1;
         let nextTimestamp = new Date().getTime() / 1000;
-        let nextHash = this.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
-        return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockData, nextHash);
+        let nextHash = this.calculateHash(nextIndex, previousBlock.blockHash, nextTimestamp, transactions);
+        return new Block(nextIndex, previousBlock.blockHash, nextTimestamp, transactions, nextHash);
 }
 
 module.exports.miningJob = (minerAddress) => {
 
-    let coinBaseTransaction = new Transaction();
+    let expectedReward = 25;
+    let index = this.getLatestBlock().index + 1;
+
+    let coinBaseTransaction = new Transaction(
+        0,              // fromAddress
+        minerAddress,   // toAddress
+        expectedReward, // transactionValue,
+        "",             // senderPubKey
+        "",             //  senderSignature,
+        "",             // transactionHash,
+        Date.now(),     // dateReceived,
+        index,          // minedInBlockIndex,
+        false           // paid
+    );
 
     let pendingTransactions = main.pendingTransactions.getPendingTransactions();
-    pendingTransactions.add(coinBaseTransaction);
+    pendingTransactions.push(coinBaseTransaction);
 
-    let index = this.getLatestBlock().index + 1;
-    let expectedReward = 25;
     let transactions = pendingTransactions;
     let transactionsHash = CryptoJS.SHA256(transactions);
     let prevBlockHash = this.calculateHashForBlock(this.getLatestBlock());
