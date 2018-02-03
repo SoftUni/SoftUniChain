@@ -3,10 +3,10 @@
  */
 const nodeHandler = require('./node')
 const blockchainHandler = require('./blockchain')
-const transactionsHadler = require('./transactions')
+//const transactionsHadler = require('./transactions')
 
 module.exports = {
     Node: nodeHandler,
     Blockchain: blockchainHandler,
-    Transactions: transactionsHadler
+//    Transactions: transactionsHadler
 }
