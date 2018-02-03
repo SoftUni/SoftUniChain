@@ -4,14 +4,19 @@
   "description": "Exercise / Testing Blockchain Network",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node -r @std/esm index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Blockchain Dev Camp Team",
   "license": "MIT",
   "dependencies": {
+    "@std/esm": "^0.20.0",
     "body-parser": "^1.18.2",
     "crypto-js": "^3.1.9-1",
     "express": "^4.16.2"
+  },
+  "@std/esm": {
+    "esm": "js",
+    "cjs": true
   }
 }
