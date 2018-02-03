@@ -49,9 +49,6 @@ namespace Miner
 
                         response = request.GetResponse();
                         statusCode = ((HttpWebResponse)response).StatusCode;
-
-                        // Display the status.
-                        //Console.WriteLine(((HttpWebResponse)response).StatusDescription);
                     }
                     catch (WebException e)
                     {
@@ -90,26 +87,6 @@ namespace Miner
                 String timestamp = DateTime.UtcNow.ToString("o");
                 String difficulty = new String('0', blockTemplate.Difficulty) +
                     new String('9', 64 - blockTemplate.Difficulty);
-
-                //Byte[] bytesToHash = new Byte[100]; // 4 + 32 + 32 + 24 + 8
-                //Byte[] blockHash = new Byte[32];
-
-                //// Add 4 bytes of block index
-                //Array.Copy(BitConverter.GetBytes(blockTemplate.Index), 0, bytesToHash, 0, 4);
-
-                //// Add 32 bytes of TransactionsHash
-                //Array.Copy(Encoding.UTF8.GetBytes(blockTemplate.TransactionsHash), 0, bytesToHash, 4, 32);
-
-                //// Add 32 bytes of PrevBlockHash
-                //Array.Copy(Encoding.UTF8.GetBytes(blockTemplate.PrevBlockHash), 0, bytesToHash, 36, 32);
-
-                //// "2018-02-02T16:59:23.527Z"     -> JavaScript -> (new Date()).toISOString();
-                //// "2018-02-02T17:03:21.9705339Z" -> C#
-                //// Add 24 bytes of TimeStamp to be compatible with JavaScript
-                //Array.Copy(Encoding.UTF8.GetBytes(timestamp), 0, bytesToHash, 68, 24);
-
-                //// Add 8 bytes of nonce
-                //Array.Copy(BitConverter.GetBytes(blockTemplate.Index), 0, bytesToHash, 92, 8);
 
                 // blockHash = SHA256(Index|TransactionsHash|PrevBlockHash|TimeStamp|Nonce);
 
