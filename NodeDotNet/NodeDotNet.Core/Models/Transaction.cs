@@ -11,7 +11,7 @@ namespace NodeDotNet.Core.Models
         public Address To { get; set; }
         public long Amount { get; set; }
         public string SenderPublickKey { get; set; }
-        public string SenderSignature { get; set; }
+        public List<string> SenderSignature { get; set; }
         public DateTime ReceivedOn { get; set; }
         public int MinedInBlockIndex { get; set; }
         public bool Paid { get; set; }

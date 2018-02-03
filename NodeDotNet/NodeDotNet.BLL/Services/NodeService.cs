@@ -30,6 +30,32 @@ namespace NodeDotNet.BLL.Services
             _addresses = new ConcurrentDictionary<string, Address>();
 
             _blockchain = new List<Block>();
+
+            ProcessNewBlock(Block.Genesis);
+        }
+
+        public IEnumerable<BlockVM> GetAllBlocks()
+        {
+            var blocks = _blockchain
+                .Select(BlockVM.FromModel);
+            blocks.Reverse();
+
+            return blocks;
+        }
+
+        public BlockVM GetBlock(int blockIndex)
+        {
+            if(blockIndex <0 || blockIndex > _blockchain.Count)
+            {
+                throw new Exception($"Block not found[Index='{blockIndex}']");
+            }
+
+            var block = _blockchain[blockIndex];
+
+            var blockInfo = BlockVM.FromModel(block);
+
+            return blockInfo;
+
         }
 
         public NodeInfoVM GetInfo()
@@ -48,6 +74,56 @@ namespace NodeDotNet.BLL.Services
             };
 
             return info;
+        }
+
+        private void ProcessNewBlock(Block block)
+        {
+            if (IsBlockValid(block))
+            {
+                UpdateCollections(block);
+                _blockchain.Add(block);
+            }
+        }
+
+        private void UpdateCollections(Block block)
+        {
+            foreach(var t in block.Transactions)
+            {
+                t.From = GetOrAddAddress(t.From);
+                t.To = GetOrAddAddress(t.To);
+
+                t.From.Amount -= t.Amount;
+                t.To.Amount += t.Amount;
+
+                t.MinedInBlockIndex = block.Index;
+                // TODO: What exactly Paid means
+                t.Paid = true;
+
+                _confirmedTransactionsById.TryAdd(t.TransactionHash, t);
+                _pendingTransactionsById.TryRemove(t.TransactionHash, out var Ignore);
+            }
+        }
+
+        private Address GetOrAddAddress(Address address)
+        {
+            _addresses.TryGetValue(address.AddressId, out var addressFromCache);
+            if (addressFromCache == null)
+            {
+                addressFromCache = address;
+                _addresses.TryAdd(address.AddressId, address);
+            }
+
+            return addressFromCache;
+        }
+
+        private bool IsBlockValid(Block block)
+        {
+            // TODO: Validate block index, previous blockhash, BlockHash(based on Nonce, date, BlockDataHash)
+            // TODO: Validate all transactions - if the amounts are available, signature, TransactionHash
+            // Is it possible to have single address 2 times in a block? If yes - will need some kind of temp addresses collection to keep track of the transactions in the block
+            // TODO: Validate BlockDataHash
+
+            return true;
         }
     }
 }

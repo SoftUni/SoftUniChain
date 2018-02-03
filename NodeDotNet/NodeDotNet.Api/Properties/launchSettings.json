@@ -18,12 +18,10 @@
     },
     "NodeDotNet.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:9267/"
+      "applicationUrl": "http://localhost:5555/"
     }
   }
 }

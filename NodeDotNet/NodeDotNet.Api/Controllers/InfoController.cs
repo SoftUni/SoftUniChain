@@ -16,11 +16,12 @@ namespace NodeDotNet.Api.Controllers
         {
             _nodeService = nodeService;
         }
-        // GET api/values
+        
         [HttpGet]
         public IActionResult Get()
         {
             var info = _nodeService.GetInfo();
+
             return Json(info);
         }
     }

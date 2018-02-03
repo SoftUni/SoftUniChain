@@ -8,5 +8,7 @@ namespace NodeDotNet.BLL.Interfaces
     public interface INodeService
     {
         NodeInfoVM GetInfo();
+        IEnumerable<BlockVM> GetAllBlocks();
+        BlockVM GetBlock(int blockIndex);
     }
 }
