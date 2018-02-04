@@ -19,7 +19,7 @@ namespace NodeDotNet.Core.Models
         public void GenerateHashes()
         {
             this.BlockDataHash = "hardcoded data hash, TODO merkel tree and hashing";
-            this.CreatedOn = DateTime.Now;
+            this.CreatedOn = DateTime.UtcNow;
             this.Nonce = 1234567890;
             this.BlockHash = "hardcoded block hash - TODO use mining process";
         }
@@ -44,10 +44,9 @@ namespace NodeDotNet.Core.Models
                                 {
                                     AddressId = "1"
                                 },
-                                ReceivedOn = DateTime.Now,
+                                ReceivedOn = DateTime.UtcNow,
                                 SenderPublickKey = "hardocoded SenderPublicKey",
-                                SenderSignature = new List<string> {"hardcoded SenderSignatoure", "somee" },
-                                TransactionHash = "hardcoded TransactionHash"
+                                SenderSignature = new List<string> {"hardcoded SenderSignatoure", "somee" }
                             },
                         },
                         Difficulty = 1,

@@ -104,6 +104,11 @@ namespace NodeDotNet.BLL.Services
             }
         }
 
+        private Address GetOrAddAddress(string address)
+        {
+            return GetOrAddAddress(new Address { AddressId = address });
+        }
+
         private Address GetOrAddAddress(Address address)
         {
             _addresses.TryGetValue(address.AddressId, out var addressFromCache);
@@ -124,6 +129,52 @@ namespace NodeDotNet.BLL.Services
             // TODO: Validate BlockDataHash
 
             return true;
+        }
+
+        public TransactionCreatedVM AddTransaction(TransactionVM transaction)
+        {
+            Transaction t = new Transaction
+            {
+                From = GetOrAddAddress(transaction.From),
+                To = GetOrAddAddress(transaction.To),
+                Amount = transaction.Value,
+                ReceivedOn = DateTime.UtcNow,
+                SenderPublickKey = transaction.SenderPublickKey,
+                SenderSignature = transaction.SenderSignature
+            };
+
+            //TODO: validate signature
+
+            if(_confirmedTransactionsById.ContainsKey(t.TransactionHash))
+            {
+                throw new Exception($"Transaction['{t.TransactionHash}'] already processed.");
+            }
+
+            if (!_pendingTransactionsById.ContainsKey(t.TransactionHash))
+            {
+                _pendingTransactionsById.TryAdd(t.TransactionHash, t);
+            }
+            //TODO: Schedule notify peers
+
+            return new TransactionCreatedVM
+            {
+                DateReceived = DateTime.UtcNow.ToString(),
+                TransactionHash = t.TransactionHash
+            };
+        }
+
+        public TransactionVM GetTransactionInfo(string transactionHash)
+        {
+            _pendingTransactionsById.TryGetValue(transactionHash, out var transaction);
+
+            if(transaction == null)
+            {
+                _confirmedTransactionsById.TryGetValue(transactionHash, out transaction);
+            }
+
+            var vm = TransactionVM.FromModel(transaction);
+
+            return vm;
         }
     }
 }

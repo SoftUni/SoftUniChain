@@ -13,7 +13,7 @@ namespace NodeDotNet.Core.ViewModels
         public string To { get; set; }
         public long Value { get; set; }
         public string SenderPublickKey { get; set; }
-        public IEnumerable<string> SenderSignature { get; set; }
+        public List<string> SenderSignature { get; set; }
         public string DateReceived { get; set; }
         public int MinedInBlockIndex { get; set; }
         public bool Paid { get; set; }

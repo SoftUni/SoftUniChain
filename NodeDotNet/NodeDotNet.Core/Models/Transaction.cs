@@ -6,7 +6,19 @@ namespace NodeDotNet.Core.Models
 {
     public class Transaction
     {
-        public string TransactionHash { get; set; }
+        private string _transactionHash { get; set; }
+        public string TransactionHash
+        {
+            get
+            {
+                if(_transactionHash == null)
+                {
+                    _transactionHash = "hardcodedTrHash" + From.AddressId;
+                }
+
+                return _transactionHash;
+            }
+        }
         public Address From { get; set; }
         public Address To { get; set; }
         public long Amount { get; set; }

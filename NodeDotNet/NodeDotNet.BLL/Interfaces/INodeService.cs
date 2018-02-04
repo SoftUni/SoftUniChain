@@ -10,5 +10,8 @@ namespace NodeDotNet.BLL.Interfaces
         NodeInfoVM GetInfo();
         IEnumerable<BlockVM> GetAllBlocks();
         BlockVM GetBlock(int blockIndex);
+
+        TransactionVM GetTransactionInfo(string transactionHash);
+        TransactionCreatedVM AddTransaction(TransactionVM transaction);
     }
 }
