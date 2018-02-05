@@ -9,6 +9,5 @@ module.exports.getPendingTransactions = () => {
 }
 
 module.exports.insertTransaction = (transaction) => {
-    main.pendingTransactions.push(transaction);
-    return true;
+    return main.pendingTransactions.push(transaction);
 }
