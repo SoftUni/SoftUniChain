@@ -3,6 +3,7 @@
  */
 let Block = require("../model/block")
 let Transaction = require("../model/transaction")
+let MiningJob = require("../model/miningJob")
 let CryptoJS = require("crypto-js");
 let main = require('../index');
 
@@ -50,20 +51,20 @@ module.exports.generateNextBlock = (transactions) => {
 module.exports.miningJob = (minerAddress) => {
 	
     // !!! Remove after adding the miningJob functionality !!!
-    return {
-        "index": 1,
-        "expectedReward" : 62.25,
-        "transactionsHash": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
-        "prevBlockHash": "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
-        "difficulty": 5
-    }
+    // return {
+    //     "index": 1,
+    //     "expectedReward" : 62.25,
+    //     "transactionsHash": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    //     "prevBlockHash": "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
+    //     "difficulty": 5
+    // }
     // !!! Remove after adding the miningJob functionality !!!
 
     let expectedReward = 25;
     let index = this.getLatestBlock().index + 1;
 
     let coinBaseTransaction = new Transaction(
-        0,              // fromAddress
+        "0x0",              // fromAddress
         minerAddress,   // toAddress
         expectedReward, // transactionValue,
         "",             // senderPubKey
@@ -74,11 +75,11 @@ module.exports.miningJob = (minerAddress) => {
         false           // paid
     );
 
-    let pendingTransactions = main.pendingTransactions.getPendingTransactions();
+    let pendingTransactions = main.pendingTransactions;
     pendingTransactions.push(coinBaseTransaction);
 
     let transactions = pendingTransactions;
-    let transactionsHash = CryptoJS.SHA256(transactions);
+    let transactionsHash = CryptoJS.SHA256(transactions).toString();
     let prevBlockHash = this.calculateHashForBlock(this.getLatestBlock());
     let difficulty = 5;
 

@@ -2,14 +2,14 @@
  * Created by milenradkov on 2/2/18.
  */
 class MiningJob {
-    constructor(index, transactions,){
-
+    constructor(index, expectedReward, transactions, transactionsHash, prevBlockHash, difficulty){
+        this.index = index;
+        this.reward = expectedReward;
+        this.transactions = transactions;
+        this.transactionsHash = transactionsHash;
+        this.prevBlockHash = prevBlockHash;
+        this.difficulty = difficulty;
     }
-    // masiv s hash na tranzackiite koito sme pratili na miniora
-    // za da moje po kysno da gi izwadim ot pending transactions
-
-    // 1 - wzimame wsichki pending tranzackii
-    // 2 - array (transsaction.hash)
-    // 3 - hash na celiq array(pravim hesh)
-
 }
+
+module.exports = MiningJob
