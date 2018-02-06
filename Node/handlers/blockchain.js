@@ -64,7 +64,7 @@ module.exports.miningJob = (minerAddress) => {
     let index = this.getLatestBlock().index + 1;
 
     let coinBaseTransaction = new Transaction(
-        "0x0",              // fromAddress
+        "0x0",          // fromAddress
         minerAddress,   // toAddress
         expectedReward, // transactionValue,
         "",             // senderPubKey
@@ -84,6 +84,13 @@ module.exports.miningJob = (minerAddress) => {
     let difficulty = 5;
 
     return new MiningJob(index, expectedReward, transactions, transactionsHash, prevBlockHash , difficulty);
+}
+
+//Verify job received from miner and add it to blockchain if valid
+module.exports.postPOW = (pow) => {
+
+
+    return pow;
 }
 
 module.exports.getLatestBlock = () => main.blockchain[main.blockchain.length - 1];

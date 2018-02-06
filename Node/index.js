@@ -29,4 +29,5 @@ app.post('/blocks/notify', handlers.Node.newBlockNotify);
 app.get('/peers', handlers.Node.getAllPeers);
 app.post('/peers', handlers.Node.postNewPeer);
 app.get('/mining/get-block/:address', handlers.Node.getMiningBlock);
+app.post('/mining/pow', handlers.Node.postPOW);
 app.listen(port, () => console.log(`Server started at port ${port}`))
