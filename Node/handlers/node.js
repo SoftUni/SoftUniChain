@@ -2,6 +2,9 @@
  * Created by milenradkov on 2/2/18.
  */
 let blockchain = require('./blockchain');
+let main = require('../index');
+let CryptoJS = require("crypto-js");
+
 
 module.exports.index = (req, res) => {
     res.send('SoftUni Chain Blockchain Node')
@@ -130,11 +133,14 @@ module.exports.getNodeBalanceByAddress = (req,res) => {
 }
 
 module.exports.postNewTransaction = (req,res) => {
+    let newTransaction = req.body;
+    main.pendingTransactions.push(newTransaction);
+    let timestamp = new Date().getTime() / 1000;
     res.setHeader('Content-Type', 'application/json');
     res.send(
         {
-            "dateReceived": "2018-02-01T23:17:02.744Z",
-            "transactionHash": "cd8d9a345bb208c6f9b8acd6b8eefe6�20c8a"
+            "dateReceived": timestamp,
+            "transactionHash": CryptoJS.SHA256(newTransaction + timestamp).toString()
         }
     )
 }

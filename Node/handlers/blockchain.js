@@ -83,11 +83,51 @@ module.exports.miningJob = (minerAddress) => {
     let prevBlockHash = this.calculateHashForBlock(this.getLatestBlock());
     let difficulty = 5;
 
-    return new MiningJob(index, expectedReward, transactions, transactionsHash, prevBlockHash , difficulty);
+
+    let jobForMining = new MiningJob(index, expectedReward, transactions, transactionsHash, prevBlockHash , difficulty);
+    main.miningJobs[minerAddress] = jobForMining;
+
+    return jobForMining;
 }
 
 //Verify job received from miner and add it to blockchain if valid
 module.exports.postPOW = (pow) => {
+
+    // {
+    //     "index": 1,
+    //     "transactionsHash": "4ea5c508a6566e76240543f8feb06fd457777be39549c4016436afda65d2330e",
+    //     "prevBlockHash": "b67e5802e3bcd13a30d4e303534e4fee623415da9652704ea53de0d7109f183e",
+    //     "minedBy": "0x00",
+    //     "dateCreated": 12312893,
+    //     "blockHash": "1980dacd198dffe9d17df1267beb918f76012381203"
+    // }
+
+    //check block
+    let newBlock = new Block(
+        main.miningJobs[pow.minedBy].index,
+        main.miningJobs[pow.minedBy].transactions,
+        main.miningJobs[pow.minedBy].difficulty,
+        main.miningJobs[pow.minedBy].prevBlockHash,
+        pow.minedBy,
+        main.miningJobs[pow.minedBy].transactionsHash,
+        pow.nonce,
+        pow.dateCreated,
+        pow.blockHash
+    );
+
+    let previousBlock = this.getLatestBlock();
+
+    if (this.isValidNewBlock(newBlock, previousBlock)){
+        main.miningJobs[pow.minedBy].transactions.forEach((transaction)=> {
+            main.pendingTransactions = main.pendingTransactions.filter(function( tran ) {
+                return tran.index !== transaction.index;
+            });
+        })
+
+        main.blockchain.push(newBlock);
+        main.miningJobs[pow.minedBy] = '';
+    }
+
 
 
     return pow;
