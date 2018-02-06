@@ -134,13 +134,15 @@ module.exports.getNodeBalanceByAddress = (req,res) => {
 
 module.exports.postNewTransaction = (req,res) => {
     let newTransaction = req.body;
+    let transactionHash = CryptoJS.SHA256(newTransaction.from + newTransaction.to + newTransaction.value + newTransaction.senderPubKey + newTransaction.senderSignature + newTransaction.timestamp).toString();
+
     main.pendingTransactions.push(newTransaction);
-    let timestamp = new Date().getTime() / 1000;
+
     res.setHeader('Content-Type', 'application/json');
     res.send(
         {
-            "dateReceived": timestamp,
-            "transactionHash": CryptoJS.SHA256(newTransaction + timestamp).toString()
+            "dateReceived": Date.now(),
+            "transactionHash": transactionHash
         }
     )
 }

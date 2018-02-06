@@ -18,6 +18,7 @@ let getGenesisBlock = () => {
 module.exports.blockchain = [getGenesisBlock()];
 module.exports.pendingTransactions = [];
 module.exports.miningJobs = [];
+module.exports.difficulty = 5;
 
 app.get('/', handlers.Node.index);
 app.get('/info', handlers.Node.getNodeInfo);
