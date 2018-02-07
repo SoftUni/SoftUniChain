@@ -8,10 +8,22 @@
 <div class="jumbotron">
     <h1>SoftUniChain Faucet</h1>
     <p class="lead">
-        Enter your SoftUniChain account address: <input type="text" />
-        <br />
-        <button>Send me 3 coins</button>
 
-
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+    <p>
+        Enter your SoftUniChain account address: @Html.TextBoxFor(x=>x.To,"0x....") <br />
+        <input type="submit" value="Send me 3 coins" />
     </p>
-</div>
+    }
+
+
+
+        </p>
+
+        <p>
+            @Html.DisplayTextFor(x => x.MessageResponse)
+            @Html.DisplayTextFor(x => x.TransactionHash)
+
+        </p>
+    </div>

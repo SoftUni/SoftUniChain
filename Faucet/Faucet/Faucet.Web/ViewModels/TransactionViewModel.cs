@@ -2,8 +2,9 @@
 {
     public class TransactionViewModel
     {
-        public int To { get; set; }
-        public int Value { get; set; }
+        public string To { get; set; }
+        public decimal Value { get; set; }
         public string MessageResponse { get; set; }
+        public string TransactionHash { get; set; }
     }
 }

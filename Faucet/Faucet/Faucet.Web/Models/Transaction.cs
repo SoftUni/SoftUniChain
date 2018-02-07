@@ -7,11 +7,11 @@ namespace Faucet.Web.Models
 {
     public class Transaction
     {
-        public int From { get; set; }
-        public int To { get; set; }
-        public int Value { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public decimal Value { get; set; }
         public int Nonce { get; set; }
-        public int SenderPubKey { get; set; }
-        public int SenderSignature { get; set; }
+        public string SenderPubKey { get; set; }
+        public string SenderSignature { get; set; }
     }
 }
