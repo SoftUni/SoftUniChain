@@ -40,21 +40,13 @@ namespace NodeDotNet.Core.Models
                             new Transaction{
                                 From = Address.GeneratorAddress,
                                 Amount = 100,
-                                To = new Address
-                                {
-                                    AddressId = "1"
-                                },
-                                ReceivedOn = DateTime.UtcNow,
+                                To = new Address("1"),
                                 SenderPublickKey = "hardocoded SenderPublicKey",
                                 SenderSignature = new List<string> {"hardcoded SenderSignatoure", "somee" }
                             },
                         },
                         Difficulty = 1,
-                        MinedBy = new Address
-                        {
-                            AddressId = "00",
-                            Amount = 10000
-                        },
+                        MinedBy = new Address("00"),
                         PrevBlockHash = String.Empty
                     };
                     _genesisBlock.GenerateHashes();
