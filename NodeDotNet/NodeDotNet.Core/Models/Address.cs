@@ -11,6 +11,12 @@ namespace NodeDotNet.Core.Models
         //TODO: possible concurency issues?
         //public List<Transaction> Transactions { get; set; }
 
+        public Address(string address)
+        {
+            //TODO: validate address?
+            this.AddressId = address;
+        }
+
         private static Address _generatorAddress;
         public static Address GeneratorAddress
         {
@@ -18,11 +24,7 @@ namespace NodeDotNet.Core.Models
             {
                 if (_generatorAddress == null)
                 {
-                    _generatorAddress = new Address
-                    {
-                        AddressId = "0",
-                        Amount = 0
-                    };
+                    _generatorAddress = new Address("0"); ;
                 }
 
                 return _generatorAddress;

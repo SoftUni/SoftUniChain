@@ -12,6 +12,8 @@ namespace NodeDotNet.BLL.Services
     public class NodeService : INodeService
     {
         private NodeSettings _nodeSettings;
+        private ITransactionService _transactionService;
+
         private ConcurrentDictionary<string, Peer> _peersByAddress;
         private ConcurrentDictionary<string, Transaction> _confirmedTransactionsById;
         private ConcurrentDictionary<string, Transaction> _pendingTransactionsById;
@@ -20,9 +22,12 @@ namespace NodeDotNet.BLL.Services
         private List<Block> _blockchain;
 
         
-        public NodeService(NodeSettings nodeSettings)
+        public NodeService(
+            NodeSettings nodeSettings,
+            ITransactionService transactionService)
         {
             _nodeSettings = nodeSettings;
+            _transactionService = transactionService;
 
             _peersByAddress = new ConcurrentDictionary<string, Peer>();
             _confirmedTransactionsById = new ConcurrentDictionary<string, Transaction>();
@@ -106,7 +111,7 @@ namespace NodeDotNet.BLL.Services
 
         private Address GetOrAddAddress(string address)
         {
-            return GetOrAddAddress(new Address { AddressId = address });
+            return GetOrAddAddress(new Address(address));
         }
 
         private Address GetOrAddAddress(Address address)
@@ -133,33 +138,32 @@ namespace NodeDotNet.BLL.Services
 
         public TransactionCreatedVM AddTransaction(TransactionVM transaction)
         {
-            Transaction t = new Transaction
-            {
-                From = GetOrAddAddress(transaction.From),
-                To = GetOrAddAddress(transaction.To),
-                Amount = transaction.Value,
-                ReceivedOn = DateTime.UtcNow,
-                SenderPublickKey = transaction.SenderPublickKey,
-                SenderSignature = transaction.SenderSignature
-            };
+            var tr = _transactionService.Create(transaction);
+            tr.From = GetOrAddAddress(tr.From);
+            tr.To = GetOrAddAddress(tr.To);
 
-            //TODO: validate signature
+            var isValid = _transactionService.Validate(tr);
 
-            if(_confirmedTransactionsById.ContainsKey(t.TransactionHash))
+            if(!isValid)
             {
-                throw new Exception($"Transaction['{t.TransactionHash}'] already processed.");
+                //throw?
             }
 
-            if (!_pendingTransactionsById.ContainsKey(t.TransactionHash))
+            if(_confirmedTransactionsById.ContainsKey(tr.TransactionHash))
             {
-                _pendingTransactionsById.TryAdd(t.TransactionHash, t);
+                throw new Exception($"Transaction['{tr.TransactionHash}'] already processed.");
+            }
+
+            if (!_pendingTransactionsById.ContainsKey(tr.TransactionHash))
+            {
+                _pendingTransactionsById.TryAdd(tr.TransactionHash, tr);
             }
             //TODO: Schedule notify peers
 
             return new TransactionCreatedVM
             {
-                DateReceived = DateTime.UtcNow.ToString(),
-                TransactionHash = t.TransactionHash
+                DateReceived = DateTime.UtcNow.ToString("o"),
+                TransactionHash = tr.TransactionHash
             };
         }
 

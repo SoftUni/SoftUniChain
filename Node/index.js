@@ -17,6 +17,8 @@ let getGenesisBlock = () => {
 
 module.exports.blockchain = [getGenesisBlock()];
 module.exports.pendingTransactions = [];
+module.exports.miningJobs = [];
+module.exports.difficulty = 5;
 
 app.get('/', handlers.Node.index);
 app.get('/info', handlers.Node.getNodeInfo);
@@ -29,4 +31,5 @@ app.post('/blocks/notify', handlers.Node.newBlockNotify);
 app.get('/peers', handlers.Node.getAllPeers);
 app.post('/peers', handlers.Node.postNewPeer);
 app.get('/mining/get-block/:address', handlers.Node.getMiningBlock);
+app.post('/mining/pow', handlers.Node.postPOW);
 app.listen(port, () => console.log(`Server started at port ${port}`))

@@ -32,7 +32,7 @@ namespace NodeDotNet.Core.ViewModels
                     MinedBy = b.MinedBy.AddressId,
                     BlockDataHash = b.BlockDataHash,
                     Nonce = b.Nonce,
-                    DateCreated = b.CreatedOn.ToString(),
+                    DateCreated = b.CreatedOn.ToString("o"),
                     BlockHash = b.BlockHash
                 };
             }
