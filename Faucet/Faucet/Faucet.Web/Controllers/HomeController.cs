@@ -56,13 +56,13 @@ namespace Faucet.Web.Controllers
 
             string addressFrom = string.Empty; //todo: one way hash on public key with sha256
 
-            String timestamp = DateTime.UtcNow.ToString("o");
+            //source: https://blogs.msdn.microsoft.com/shawnfa/2007/01/18/elliptic-curve-dsa/
             ECDsaCng dsa = new ECDsaCng();
 
-            byte[] pkBytes = Encoding.UTF8.GetBytes(publicKey);
-            byte[] data = dsa.SignHash(pkBytes);
+            byte[] pkBytes = Encoding.UTF8.GetBytes(privateKey);
+            byte[] pubKeyData = dsa.SignHash(pkBytes);
             dsa.HashAlgorithm = CngAlgorithm.Sha256;
-            byte[] signature = dsa.SignData(data);
+            byte[] signature = dsa.SignData(pubKeyData);
 
             /* post data template
              * {
