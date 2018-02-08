@@ -4,8 +4,13 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
+//using Cryptography.ECDSA;
+//using System.Security.Cryptography;
+//using Org.BouncyCastle.Math.EC;
+//using Org.BouncyCastle.Crypto.EC;
 //using System.Net.Http;
 
 namespace Faucet.Web.Controllers
@@ -26,7 +31,7 @@ namespace Faucet.Web.Controllers
              *   
              *   -Add PK in config (it should be stored in the genesis block)
              *   -gen PK elliptic curve 251 
-             *   -gen address hesh sha 251 one way
+             *   -gen address hesh sha 251 one way in order to sign the transaction
              *   
              *   send response to the node - post new transaction
              *   */
@@ -37,27 +42,27 @@ namespace Faucet.Web.Controllers
                 return View(transaction);
             }
 
-            string nodeIpAddress = ConfigurationManager.AppSettings["nodeIpAddress"];
-            string newTransactionPostUrl = ConfigurationManager.AppSettings["newTransactionPostUrl"]; 
-            string privateKey = ConfigurationManager.AppSettings["privatekey"]; //todo: think how to secure faucet private key
-            string publicKey = string.Empty; //todo: priveteKey apply eliptic curve 251
+            //todo: add settings in config file
+            //string nodeIpAddress = ConfigurationManager.AppSettings["nodeIpAddress"];
+            //string newTransactionPostUrl = ConfigurationManager.AppSettings["newTransactionPostUrl"]; 
+            //string privateKey = ConfigurationManager.AppSettings["privatekey"]; //todo: think how to secure faucet private key
+
+
+            string nodeIpAddress = "127.0.0.1:5000";
+            string newTransactionPostUrl = "/transactions/new";
+            string privateKey = "13a36ccccff928be2ee380978b60a4a012cdc2934d8b90fa9b4721ba857751lk";
+            string publicKey = string.Empty;
+
+
             string addressFrom = string.Empty; //todo: one way hash on public key with sha256
-            string to = transaction.To;
-            decimal value = transaction.Value;
-            string senderSignature = string.Empty;//
-            int nonce = 0;
+
             String timestamp = DateTime.UtcNow.ToString("o");
-            
-            WebResponse response = null;
-            HttpStatusCode statusCode = HttpStatusCode.RequestTimeout;
+            ECDsaCng dsa = new ECDsaCng();
 
-            WebRequest request = WebRequest.Create(nodeIpAddress + newTransactionPostUrl);
-            statusCode = HttpStatusCode.RequestTimeout;
-
-            request.Method = "POST";
-            request.Timeout = 3000;
-            request.ContentType = "application/json; charset=utf-8";
-
+            byte[] pkBytes = Encoding.UTF8.GetBytes(publicKey);
+            byte[] data = dsa.SignHash(pkBytes);
+            dsa.HashAlgorithm = CngAlgorithm.Sha256;
+            byte[] signature = dsa.SignData(data);
 
             /* post data template
              * {
@@ -69,14 +74,24 @@ namespace Faucet.Web.Controllers
              * }
              */
 
+            WebResponse response = null;
+            HttpStatusCode statusCode = HttpStatusCode.RequestTimeout;
+
+            WebRequest request = WebRequest.Create(nodeIpAddress + newTransactionPostUrl);
+            statusCode = HttpStatusCode.RequestTimeout;
+
+            request.Method = "POST";
+            request.Timeout = 3000;
+            request.ContentType = "application/json; charset=utf-8";
+
             JObject body = JObject.FromObject(new
             {
                 from = addressFrom,
-                to = to,
-                value = value,
+                to = transaction.To,
+                value = transaction.Value,
                 senderPublicKey = publicKey,
-                senderSignature = senderSignature,
-                nonce = nonce
+                senderSignature = signature,
+                nonce = 0
             });
 
             Byte[] trans = Encoding.UTF8.GetBytes(body.ToString());
@@ -95,6 +110,7 @@ namespace Faucet.Web.Controllers
              * "transactionHash": "cd8d9a345bb208c6f9b8acd6b8eefe6…20c8a"
              *  }
              */
+
             transaction.MessageResponse = statusCode.ToString() + ": " +  ((HttpWebResponse)response).StatusDescription;
             transaction.TransactionHash = "pdasd3334t45fffdllozn44mja99qjjiuo2ygfytf4551ug44eqrtf2";// todo: display the transaction hash from the response
 
