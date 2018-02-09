@@ -51,7 +51,6 @@ namespace Faucet.Web.Controllers
             string nodeIpAddress = "127.0.0.1:5000";
             string newTransactionPostUrl = "/transactions/new";
             string privateKey = "13a36ccccff928be2ee380978b60a4a012cdc2934d8b90fa9b4721ba857751lk";
-            string publicKey = string.Empty;
 
 
             string addressFrom = string.Empty; //todo: one way hash on public key with sha256
@@ -61,6 +60,9 @@ namespace Faucet.Web.Controllers
 
             byte[] pkBytes = Encoding.UTF8.GetBytes(privateKey);
             byte[] pubKeyData = dsa.SignHash(pkBytes);
+            string publicKey = Encoding.UTF8.GetString(pubKeyData);
+
+
             dsa.HashAlgorithm = CngAlgorithm.Sha256;
             byte[] signature = dsa.SignData(pubKeyData);
 
@@ -124,6 +126,9 @@ namespace Faucet.Web.Controllers
             {
                 return false;
             }
+
+            //todo: validate balance from node 
+
             return true;
         }
     }
