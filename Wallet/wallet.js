@@ -37,26 +37,37 @@ $(document).ready(function() {
     }
     
     function generateNewWallet() {
-		let privateKey = '';
-        for (let i = 0; i<64; i++)
-			privateKey += Math.floor(Math.random() * 16).toString(16);
-		let ec = new elliptic.ec('secp256k1')
+		let ec = new elliptic.ec('secp256k1');
 		let keyPair = ec.genKeyPair();
-		let privKey = keyPair.getPrivate().toString(16);
-		let pubKey = keyPair.getPublic().getX().toString(16) + 
-			(keyPair.getPublic().getY().isOdd() ? "1" : "0");
-		let ripemd160 = new Hashes.RMD160;
-		let address = ripemd160.hex(pubKey);
+		saveKeys(keyPair);
 		
 		$('#textareaCreateWalletResult').text(
-			"Generated random private key: " + privKey + "\n" +
-			"Extracted public key: " + pubKey + "\n" +
-			"Extracted blockchain address: " + address
+			"Generated random private key: " + sessionStorage['privKey'] + "\n" +
+			"Extracted public key: " + sessionStorage['pubKey'] + "\n" +
+			"Extracted blockchain address: " + sessionStorage['address']
 		);
     }
 	
+	function saveKeys(keyPair) {
+		sessionStorage['privKey'] = keyPair.getPrivate().toString(16);
+		let pubKey = keyPair.getPublic().getX().toString(16) + 
+			(keyPair.getPublic().getY().isOdd() ? "1" : "0");
+		sessionStorage['pubKey'] = pubKey;
+		let ripemd160 = new Hashes.RMD160();
+		sessionStorage['address'] = ripemd160.hex(pubKey);
+	}
+	
 	function openExistingWallet() {
-        // TODO
+		let userPrivateKey = $('#textBoxPrivateKey').val();
+		let ec = new elliptic.ec('secp256k1');
+		let keyPair = ec.keyFromPrivate(userPrivateKey);
+		saveKeys(keyPair);
+		
+		$('#textareaOpenWalletResult').text(
+			"Decoded existing private key: " + sessionStorage['privKey'] + "\n" +
+			"Extracted public key: " + sessionStorage['pubKey'] + "\n" +
+			"Extracted blockchain address: " + sessionStorage['address']
+		);
     }
 	
 	function displayBalance() {
