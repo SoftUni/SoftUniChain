@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faucet.Web", "Faucet.Web\Faucet.Web.csproj", "{45B350DC-3957-4537-9BB3-A29773A71F43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faucet.Console", "Faucet.Console\Faucet.Console.csproj", "{8029A39C-0E8C-45FB-BDA3-7FBF019B4D92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{45B350DC-3957-4537-9BB3-A29773A71F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45B350DC-3957-4537-9BB3-A29773A71F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45B350DC-3957-4537-9BB3-A29773A71F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8029A39C-0E8C-45FB-BDA3-7FBF019B4D92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8029A39C-0E8C-45FB-BDA3-7FBF019B4D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8029A39C-0E8C-45FB-BDA3-7FBF019B4D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8029A39C-0E8C-45FB-BDA3-7FBF019B4D92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,10 +11,10 @@
 
         @using (Html.BeginForm("Index", "Home", FormMethod.Post))
         {
-    <p>
-        Enter your SoftUniChain account address: @Html.TextBoxFor(x=>x.To,"0x....") <br />
-        <input type="submit" value="Send me 3 coins" />
-    </p>
+        <p>
+            Enter your SoftUniChain account address: @Html.TextBoxFor(x => x.To, "0x....") <br />
+            <input type="submit" value="Send me 3 coins" />
+        </p>
     }
 
 
@@ -22,8 +22,15 @@
         </p>
 
         <p>
-            @Html.DisplayTextFor(x => x.MessageResponse)
-            @Html.DisplayTextFor(x => x.TransactionHash)
+            @if (Model != null && !string.IsNullOrEmpty(Model.TransactionHash))
+            {
+                @Html.DisplayTextFor(x => x.MessageResponse)
+            }
+
+            @if (Model != null && !string.IsNullOrEmpty(Model.MessageResponse))
+            {
+                @Html.DisplayTextFor(x => x.MessageResponse)
+            }
 
         </p>
     </div>
