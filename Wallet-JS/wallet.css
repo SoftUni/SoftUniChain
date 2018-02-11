@@ -88,6 +88,7 @@ input.address {
 }
 
 textarea.result {
+	display: block;
 	margin-top: 5px;
 	width: 500px;
 	height: 200px; 
@@ -95,6 +96,7 @@ textarea.result {
 }
 
 textarea.signedTransaction {
+	display: block;
 	margin-top: 5px;
 	width: 500px;
 	height: 100px; 
