@@ -12,6 +12,12 @@ const app = express()
 
 app.use(bodyParser.json())
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 let faucetAddress = "a1d15353e7dba1c2271c68bd4ea58032af8b46ce93d5b2354587f5ce58139c8e";
 let getGenesisBlock = () => {
     return new Block(
@@ -46,7 +52,6 @@ module.exports.peers = [];
 balances = [];
 balances[faucetAddress.toString()] = 12398178923123;
 module.exports.balances = balances;
-
 
 module.exports.reward = 25;
 
