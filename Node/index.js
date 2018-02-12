@@ -38,9 +38,12 @@ app.get('/balance/:address/confirmations/:confirmCount', handlers.Node.getNodeBa
 app.post('/transactions/new', handlers.Node.postNewTransaction);
 app.get('/transactions/:tranHash/info', handlers.Node.getTransactionInfo);
 app.get('/transactions/pending', handlers.Node.getPendingTransactiosn);
+
+app.get('/mining/jobs', handlers.Node.getMiningJobs);
+
 app.post('/blocks/notify', handlers.Node.newBlockNotify);
 app.get('/peers', handlers.Node.getAllPeers);
 app.post('/peers', handlers.Node.postNewPeer);
 app.get('/mining/get-block/:address', handlers.Node.getMiningBlock);
-app.post('/mining/pow', handlers.Node.postPOW);
+app.post('/mining/get-block/:address', handlers.Node.postPOW);
 app.listen(port, () => console.log(`Server started at port ${port}`))

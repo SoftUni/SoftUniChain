@@ -22,8 +22,13 @@ namespace Miner
             //'difficulty':5
             //}";
 
-            String nodeIpAddress = args[0];
-            String minerAddress = args[1];
+            //String nodeIpAddress = args[0];
+            //String minerAddress = args[1];
+
+
+            String nodeIpAddress = "http://localhost:5555";
+            String minerAddress = "f582d57711a618e69d588ce93895d749858fa95b";
+
 
             WebResponse response = null;
             HttpStatusCode statusCode = HttpStatusCode.RequestTimeout;
@@ -102,6 +107,7 @@ namespace Miner
 
                     blockHash = ByteArrayToHexString(Sha256(Encoding.UTF8.GetBytes(data)));
 
+
                     if (String.CompareOrdinal(blockHash, difficulty) < 0)
                     {
                         Console.WriteLine("!!! Block found !!!");
@@ -127,6 +133,10 @@ namespace Miner
                                 request.Method = "POST";
                                 request.Timeout = 3000;
                                 request.ContentType = "application/json; charset=utf-8";
+
+                                Console.WriteLine($"PrecomputedData: {precomputedData}");
+                                Console.WriteLine($"Timestamp: {timestamp}");
+                                Console.WriteLine($"Nonce: {nonce.ToString()}");
 
                                 dataStream = request.GetRequestStream();
                                 dataStream.Write(blockFoundData, 0, blockFoundData.Length);

@@ -148,11 +148,19 @@ module.exports.postNewPeer = (req,res) => {
 //done
 module.exports.postPOW = (req,res) => {
     //Receive mining job done from miner and assert it
-    let jobDone = blockchain.postPOW(req.body);
+    console.log(req.body);
+    let jobDone = blockchain.postPOW(req, res);
     res.setHeader('Content-Type', 'application/json');
-    res.send(jobDone)
+    res.send(jobDone);
 }
 
+//done
+module.exports.getMiningJobs = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(main.miningJobs);
+}
+
+//done
 module.exports.getPendingTransactiosn = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(main.pendingTransactions);

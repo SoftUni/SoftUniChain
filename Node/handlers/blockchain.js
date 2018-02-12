@@ -7,12 +7,17 @@ let MiningJob = require("../model/miningJob")
 let CryptoJS = require("crypto-js");
 let main = require('../index');
 
-module.exports.calculateHash = (index, prevBlockHash, dateCreated, transactions, nonce) => {
-        return CryptoJS.SHA256(index + prevBlockHash + dateCreated + transactions + nonce).toString();
+module.exports.calculateHash = (index, transactions, prevBlockHash, dateCreated, nonce) => {
+
+    let precomputedData = index +''+ CryptoJS.SHA256(transactions) +''+ prevBlockHash;
+    let data = precomputedData + '' + dateCreated + '' + nonce;
+    let computedHash = CryptoJS.SHA256(data).toString();
+
+    return computedHash;
 }
 
 module.exports.calculateHashForBlock = (block) => {
-        return this.calculateHash(block.index, block.prevBlockHash, block.dateCreated, block.transactions, block.nonce);
+        return this.calculateHash(block.index, block.transactions, block.prevBlockHash, block.dateCreated, block.nonce);
 }
 
 module.exports.addBlock = (newBlock) => {
@@ -32,9 +37,9 @@ module.exports.isValidNewBlock = (newBlock, previousBlock) => {
             return false;
         }
 
-        if (this.calculateHashForBlock(newBlock) !== newBlock.hash) {
-            console.log(typeof (newBlock.hash) + ' ' + typeof this.calculateHashForBlock(newBlock));
-            console.log('Invalid hash: ' + this.calculateHashForBlock(newBlock) + ' ' + newBlock.hash);
+        if (this.calculateHashForBlock(newBlock).toUpperCase() !== newBlock.blockHash.toUpperCase()) {
+            console.log(typeof (newBlock.blockHash) + ' ' + typeof this.calculateHashForBlock(newBlock));
+            console.log('Invalid hash: ' + this.calculateHashForBlock(newBlock) + ' ' + newBlock.blockHash);
             return false;
         }
         return true;
@@ -73,14 +78,15 @@ module.exports.miningJob = (minerAddress) => {
     let prevBlockHash = this.calculateHashForBlock(this.getLatestBlock());
 
     let jobForMining = new MiningJob(index, expectedReward, transactions, transactionsHash, prevBlockHash , main.difficulty);
+
     main.miningJobs[minerAddress] = jobForMining;
 
     return jobForMining;
 }
 
-module.exports.calculateHash = (index, previousHash, timestamp, data, nonce) => {
-    return CryptoJS.SHA256(index + previousHash + timestamp + data + nonce).toString();
-};
+// module.exports.calculateHash = (index, previousHash, timestamp, data, nonce) => {
+//     return CryptoJS.SHA256(index + previousHash + timestamp + data + nonce).toString();
+// };
 
 module.exports.isValidPOW = (pow) => {
     let miningJob = main.miningJobs[pow.minedBy];
@@ -99,45 +105,39 @@ module.exports.powDetect = (hash) => {
 }
 
 //Verify job received from miner and add it to blockchain if valid
-module.exports.postPOW = (pow) => {
+module.exports.postPOW = (req, res) => {
 
-    // {
-    //     "index": 1,
-    //     "transactionsHash": "4ea5c508a6566e76240543f8feb06fd457777be39549c4016436afda65d2330e",
-    //     "prevBlockHash": "b67e5802e3bcd13a30d4e303534e4fee623415da9652704ea53de0d7109f183e",
-    //     "minedBy": "0x00",
-    //     "dateCreated": 12312893,
-    //     "blockHash": "1980dacd198dffe9d17df1267beb918f76012381203",
-    //     "nonce": 123
-    // }
-
-    //check block
+    let minerAddress = req.params['address'];
+    let pow = req.body;
+    let previousBlock = this.getLatestBlock();
+    let newBlockIndex = previousBlock.index + 1;
     let newBlock = new Block(
-        main.miningJobs[pow.minedBy].index,
-        main.miningJobs[pow.minedBy].transactions,
-        main.miningJobs[pow.minedBy].difficulty,
-        main.miningJobs[pow.minedBy].prevBlockHash,
-        pow.minedBy,
-        main.miningJobs[pow.minedBy].transactionsHash,
+        newBlockIndex,
+        main.miningJobs[minerAddress.toString()].transactions,
+        main.miningJobs[minerAddress.toString()].difficulty,
+        main.miningJobs[minerAddress.toString()].prevBlockHash,
+        minerAddress,
+        main.miningJobs[minerAddress.toString()].transactionsHash,
         pow.nonce,
         pow.dateCreated,
         pow.blockHash
     );
 
-    let previousBlock = this.getLatestBlock();
+    console.log(newBlock);
 
     if (this.isValidNewBlock(newBlock, previousBlock)){
-        main.miningJobs[pow.minedBy].transactions.forEach((transaction)=> {
+        console.log("VALID BLOCK !");
+        console.log(main.pendingTransactions);
+        main.miningJobs[minerAddress.toString()].transactions.forEach((transaction)=> {
             main.pendingTransactions = main.pendingTransactions.filter(function( tran ) {
                 return tran.index !== transaction.index;
             });
+            console.log(main.pendingTransactions);
         })
 
         main.blockchain.push(newBlock);
-        main.miningJobs[pow.minedBy] = '';
+        main.miningJobs[minerAddress.toString()] = '';
     }
-
-
 
     return pow;
 }
