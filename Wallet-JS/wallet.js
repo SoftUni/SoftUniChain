@@ -127,20 +127,23 @@ $(document).ready(function() {
             to:to,
             value: Number(value),
             senderPubKey:senderPubKey,
-            senderSignature:signatureArray,
+            senderSignature: signatureArray,
             dateCreated:dateCreated
         }
-        
+
+        jsonReqeust = JSON.stringify(transaction)
+
         $.ajax({
             url: url,
             method: 'post',
             dataType: 'json',
-            data: transaction,
+            data: jsonReqeust,
+            contentType: "application/json",
             success: function(data) {
-                console.log(data);
+                $('#textareaSendTransactionresult').val(data.responseJSON.transactionHash)
             },
             error: function(err){
-                console.log(err);
+                $('#textareaSendTransactionresult').val(err.responseJSON.error)
             }
          })
         // fetch(url, {
