@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BlockChain Explorer">
+    <meta name="author" content="Test Project">
+    <meta name="keywords"
+          content="blockchain, explorer, testnet, etherchain">
+    <meta name="theme-color" content="#18bc9c">
+    <link rel="icon" href="css/blockchainIcon.png">
+    <title>Blocks - BlockChain Explorer</title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/r/bs/dt-1.10.9/datatables.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/2.0.7/bignumber.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+    <script src="dateformat.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar" class="navbar-toggle collapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" title="TestNet" class="navbar-brand">
+                <span class="glyphicon glyphicon-link"></span> TestNet Explorer</a></div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-eye-open"></span> BlockChain<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blocks.html"><span class="glyphicon glyphicon-book"></span> View Blocks</a></li>
+						<li><a href="uncles.html"><span class="glyphicon glyphicon-book"></span> View Uncles</a></li>
+                        <li><a href="txs.html?"><span class="glyphicon glyphicon-transfer"></span> View Transactions</a></li>
+						<li><a href="ptxs.html?"><span class="glyphicon glyphicon-transfer"></span> View Pending Transactions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-list-alt"></span> Accounts<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="acounts.html">Accounts</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle">
+                    <div class="span glyphicon glyphicon-wrench"></div>
+                    Tools<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://ens.etherchain.org/" target="_blank"><span
+                                class="glyphicon glyphicon-globe"></span> Ethereum Name Service</a></li>
+                        <li><a href="https://www.ethernodes.org/" target="_blank">Nodes Explorer</a></li>
+                        <li><a href="https://github.com/gobitfly/etherchain-light" target="_blank">Etherchain Light</a>
+                        </li>
+                        <li><a href="https://github.com/gobitfly/erc20-explorer" target="_blank">ERC20 Token
+                            explorer</a></li>
+                        <li><a href="https://www.etherchain.org/documentation/api/">API</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form action="search" method="POST" class="navbar-form navbar-right">
+                <div class="form-group"><input type="text" placeholder="Tx Hash, Address or Block number"
+                                               id="search" name="search" class="form-control input-sm"></div>
+                <button type="submit" style="margin-left: 2px" class="btn btn-success">
+                    <span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="blocks" class="container"><h2 id="blockFromTo">Blocks</h2>
+    <nav>
+        <ul class="pagination">
+            <li><a aria-label="Previous" id="previous"><span aria-hidden="true">&laquo; Previous Page</span></a></li>
+        </ul>
+    </nav>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Block Number</th>
+            <th>Hash Value</th>
+            <th>Difficulty</th>
+            <th>Miner</th>
+			<th>Transactions</th>
+            <th>Gas Used</th>
+            <th>Time</th>
+            <th>Uncles</th>
+		</tr>
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000003</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 6</td>
+			<td>121</td>
+			<td>300000</td>
+			<td>21:32:07-21/11/18</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000002</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 3</td>
+			<td>50</td>
+			<td>400000</td>
+			<td>20:32:07-21/11/18</td>
+			<td>2</td>
+		</tr>		
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000001</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 1</td>
+			<td>12</td>
+			<td>100000</td>
+			<td>19:32:07-21/11/18</td>
+			<td>1</td>
+		</tr>	
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000003</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 6</td>
+			<td>121</td>
+			<td>300000</td>
+			<td>21:32:07-21/11/18</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000002</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 3</td>
+			<td>50</td>
+			<td>400000</td>
+			<td>20:32:07-21/11/18</td>
+			<td>2</td>
+		</tr>		
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000001</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 1</td>
+			<td>12</td>
+			<td>100000</td>
+			<td>19:32:07-21/11/18</td>
+			<td>1</td>
+		</tr>		
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000003</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 6</td>
+			<td>121</td>
+			<td>300000</td>
+			<td>21:32:07-21/11/18</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000002</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 3</td>
+			<td>50</td>
+			<td>400000</td>
+			<td>20:32:07-21/11/18</td>
+			<td>2</td>
+		</tr>		
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000001</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 1</td>
+			<td>12</td>
+			<td>100000</td>
+			<td>19:32:07-21/11/18</td>
+			<td>1</td>
+		</tr>		
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000003</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 6</td>
+			<td>121</td>
+			<td>300000</td>
+			<td>21:32:07-21/11/18</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000002</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 3</td>
+			<td>50</td>
+			<td>400000</td>
+			<td>20:32:07-21/11/18</td>
+			<td>2</td>
+		</tr>		
+		<tr>
+			<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000001</a></td>
+			<td><a href="block.html"><span  &&&&&&&&&&         ></span> 0x0c5241dca163bf1e0872ad16a</a></td>
+			<td>52</td>
+			<td>miner 1</td>
+			<td>12</td>
+			<td>100000</td>
+			<td>19:32:07-21/11/18</td>
+			<td>1</td>
+		</tr>	
+		<tr> <br/> </tr>
+		</thead>
+        <tbody id="moreblocks">
+        </tbody>
+    </table>
+	<div>
+		<br/> <br/> <br/><br/> <br/> 
+	</div>
+</div>
+<hr>
+<div class="container">
+    <footer><p>© Test Net | Test Network Blockchain Explorer  | Written in accordance with free MIT license | Source
+        <a href="https://www.etherchain.org">www.etherchain.org</a> | Powered by Parity v1.7.8</p>
+    </footer>
+</div>
+</body>
+<!--<script> 
+    var offset=GetQueryString("offset");
+    var baseurl;
+    var myurl;
+
+    if(offset!=null&&offset!=""){
+        offset=parseInt(offset);
+        offset=offset+50;
+    baseurl = "https://etherchain.org/api/blocks/"+offset+":offset/50:count";
+    }else {
+    baseurl = "https://etherchain.org/api/blocks/:offset/50:count";
+    offset=50;
+    }
+    myurl="blocks.html?offset="+offset;
+    $("#previous").attr("href",myurl);
+    $.ajaxSettings.async = false;//ajax
+    $.getJSON(baseurl, function (result) {
+        var result = eval(result);
+        for(i=0;i<result.data.length;i++){
+            var number=result.data[i].number;
+            var coinbase=result.data[i].coinbase;
+            var hash=result.data[i].hash.substring(0,9)+"...";
+            var time=new Date(result.data[i].time).format("yyyy-MM-dd hh:mm:ss");
+            var difficulty=(result.data[i].difficulty/ 1000000000000).toFixed(3) + " T";
+            var uncle_count = result.data[i].uncle_count;
+            var gasUsed=result.data[i].gasUsed;
+            if(i==0){
+                $("#blockFromTo").append("  "+number+"-");
+            }
+            if(i==result.data.length-1){
+                $("#blockFromTo").append(number);
+            }
+            $("#moreblocks").append("<tr>" +
+                "<td><a href='block.html?number="+number+"&name="+ name+"'>"+number+"</a></td>" +"<td>"+hash+"</td><td>"+difficulty+"</td><td><a href='acount.html?name="+name+"&coinbase=" + coinbase +"'>"+coinbase +"</td><td>"+gasUsed+"</td>" +"<td>" +time +"</td><td>"+uncle_count+"</td>" +"</tr>");
+        }
+
+
+
+    })
+
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+</script> -->
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BlockChain Explorer">
+    <meta name="author" content="Test Project">
+    <meta name="keywords"
+          content="blockchain, explorer, testnet, etherchain">
+    <meta name="theme-color" content="#18bc9c">
+    <link rel="icon" href="css/blockchainIcon.png">
+    <title>Search - BlockChain Explorer</title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/r/bs/dt-1.10.9/datatables.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/2.0.7/bignumber.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+    <script src="dateformat.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar" class="navbar-toggle collapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" title="TestNet" class="navbar-brand">
+                <span class="glyphicon glyphicon-link"></span> TestNet Explorer</a></div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-eye-open"></span> BlockChain<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blocks.html"><span class="glyphicon glyphicon-book"></span> View Blocks</a></li>
+						<li><a href="uncles.html"><span class="glyphicon glyphicon-book"></span> View Uncles</a></li>
+                        <li><a href="txs.html?"><span class="glyphicon glyphicon-transfer"></span> View Transactions</a></li>
+						<li><a href="ptxs.html?"><span class="glyphicon glyphicon-transfer"></span> View Pending Transactions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-list-alt"></span> Accounts<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="acounts.html">Accounts</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle">
+                    <div class="span glyphicon glyphicon-wrench"></div>
+                    Tools<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://ens.etherchain.org/" target="_blank"><span
+                                class="glyphicon glyphicon-globe"></span> Ethereum Name Service</a></li>
+                        <li><a href="https://www.ethernodes.org/" target="_blank">Nodes Explorer</a></li>
+                        <li><a href="https://github.com/gobitfly/etherchain-light" target="_blank">Etherchain Light</a>
+                        </li>
+                        <li><a href="https://github.com/gobitfly/erc20-explorer" target="_blank">ERC20 Token
+                            explorer</a></li>
+                        <li><a href="https://www.etherchain.org/documentation/api/">API</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form action="search" method="POST" class="navbar-form navbar-right">
+                <div class="form-group"><input type="text" placeholder="Tx Hash, Address or Block number"
+                                               id="search" name="search" class="form-control input-sm"></div>
+                <button type="submit" style="margin-left: 2px" class="btn btn-success">
+                    <span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="error" class="container">
+    <div role="alert" style="margin-top:50px" class="alert alert-danger">Error - invalid string!
+    </div>
+</div>
+<hr>
+<div class="container">
+    <footer><p>© Test Net | Test Network Blockchain Explorer  | Written in accordance with free MIT license | Source
+        <a href="https://www.etherchain.org">www.etherchain.org</a> | Powered by Parity v1.7.8</p>
+    </footer>
+</div>
+<script>
+
+</script>
+</body>
+</html>
