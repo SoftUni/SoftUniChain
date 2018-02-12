@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +10,7 @@
           content="blockchain, explorer, testnet, etherchain">
     <meta name="theme-color" content="#18bc9c">
     <link rel="icon" href="../css/blockchainIcon.png">
-    <title>Pending Transactions - BlockChain Explorer</title>
+    <title>Block - BlockChain Explorer</title>
     <!-- Bootstrap core CSS-->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/datatables.min.css">
@@ -94,118 +94,88 @@
         </div>
     </div>
 </nav>
-<div id="txs" class="container"><h2>Pending Transactions</h2>
-    <nav></nav>
-    <ul class="pagination">
-        <li><a href="/txs/50" aria-label="Previous" id="previous"><span aria-hidden="true">&laquo; Previous page</span></a></li>
-    </ul>
-    <table class="table table-condensed">
-        <th>Hash value</th>
-        <th>Block number</th>
-        <th>Sent from</th>
-        <th>Status</th>
-        <th>Amount</th>
-        <th>Time</th>
-        </thead>
-			<tr>
-				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c2</a></td>
-				<td><a href="">0000000006</a></td>
-				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e8y</a></td>
-				<td>pending</td>
-                <td>21.72 Ether </td>
-				<td>21:32:07-27/1/18</td>
-            </tr>
-			<tr>
-				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c1</a></td>
-				<td><a href="">0000000005</a></td>
-				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e6f</a></td>
-				<td>pending</td>
-                <td>1.2 Ether </td>
-				<td>16:13:55-21/1/18</td>
-            </tr>
-			<tr>
-				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c9</a></td>
-				<td><a href="">0000000004</a></td>
-				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e5d</a></td>
-				<td>pending</td>
-                <td>2.7 Ether </td>
-				<td>2:25:00-15/1/18</td>
-            </tr>
-			<tr>
-				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c8</a></td>
-				<td><a href="">0000000003</a></td>
-				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e5x</a></td>
-				<td>pending</td>
-                <td>2.7 Ether </td>
-				<td>1:32:07-1/1/18</td>
-            </tr>
-        <tbody id="moretxs">
-        </tbody>
+<div id="block" class="container">
+    
+    <h2>Uncles</h2>
+    <table class="table table-condensed table-responsive">
+        <tr>
+            <th>Hash</th>
+            <th>Miner</th>
+            <th>Block Number</th>
+            <th>Level</th>
+            <th>Reward</th>
+        </tr>
+        <tr>
+            <td>0x69342cf1...</td>
+            <td><a href="/account/0x829bd824b016326a401d083b33d092293333a830">miner 1</a></td>
+            <td>4432990</td>
+            <td>1</td>
+            <td>2.625 Ether ($783.83)</td>
+        </tr>
+		<tr>
+            <td>0x69342cf1...</td>
+            <td><a href="/account/0x829bd824b016326a401d083b33d092293333a830">miner4</a></td>
+            <td>4432990</td>
+            <td>1</td>
+            <td>2.625 Ether ($783.83)</td>
+        </tr>
+		<tr>
+            <td>0x69342cf1...</td>
+            <td><a href="/account/0x829bd824b016326a401d083b33d092293333a830">miner2</a></td>
+            <td>4432990</td>
+            <td>3</td>
+            <td>2.625 Ether ($783.83)</td>
+        </tr>
     </table>
 </div>
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 <hr>
 <div class="container">
     <footer><p>© Test Net | Test Network Blockchain Explorer  | Written in accordance with free MIT license | Source
         <a href="https://www.etherchain.org">www.etherchain.org</a> | Powered by Parity v1.7.8</p>
     </footer>
 </div>
-</body>
 <!--<script>
     var number=GetQueryString("number");
-    var baseurl = "https://etherchain.org/api/basic_stats";
+    number=parseInt(number);
+    numberpre=parseInt(number)-1;
+    numbernext=parseInt(number)+1;
+    var myurl="https://etherchain.org/api/block/"+number+":id";
+    var myurlpre="block.html?number="+numberpre;
+    var myurlnext="block.html?number="+numbernext;
+    $("#previous").attr("href",myurlpre);
+    $("#next").attr("href",myurlnext);
+
     $.ajaxSettings.async = false;//同步ajax请求
-    $.getJSON(baseurl, function (result) {
-        var result = eval(result);
-        if (number==null) {
-            number=result.data.difficulty.number;
-        }
-
-        console.log("number="+number);
-        number=parseInt(number);
-        numberpre=parseInt(number)-1;
-        var myurlpre="txs.html?number="+numberpre;
-        $("#previous").attr("href",myurlpre);
-
-        txurl="https://etherchain.org/api/block/"+number+":id/tx"
-        $.getJSON(txurl,function (resultdata) {
+    $.getJSON(myurl, function (result) {
+        var time=new Date(result.data[0].time).format("yyyy-MM-dd hh:mm:ss");
+        $("#hash").append(result.data[0].hash);
+        $("#difficulty").append(result.data[0].difficulty);
+        $("#gaslimit").append(result.data[0].gasLimit);
+        $("#gasusg").append(result.data[0].gasUsed);
+        $("#txhash").append(result.data[0].txHash);
+        $("#nonce").append(result.data[0].nonce);
+        $("#unclehash").append(result.data[0].uncleHash);
+        $("#time").append(time);
+        $("#root").append(result.data[0].root);
+        $("#extra").append(result.data[0].extra);
+        $("#size").append(result.data[0].size);
+        $("#reward").append(result.data[0].reward);
+        $("#blocknumber").append(number);
+        var coinbase=result.data[0].coinbase;
+        var nameUrl="https://etherchain.org/api/account/"+coinbase;
+        console.log(nameUrl);
+        $.getJSON(nameUrl, function (resultdata) {
             var resultdata = eval(resultdata);
-            var length;
-            if(resultdata.data.length>=50){
-                length=50;
-            }else {
-                length=resultdata.data.length;
+            console.log(resultdata);
+            var name=resultdata.data[0].name;
+            if(name==null||name==""){
+                name=coinbase;
             }
-            for(i=0;i<length;i++){
-                var hash=resultdata.data[i].hash.substring(0,9)+"...";
-                var block_id=resultdata.data[i].block_id;
-                var sender=resultdata.data[i].sender.substring(0,9)+"...";
-                var recipient=resultdata.data[i].recipient.substring(0,9)+"...";
-                var amount=(resultdata.data[i].amount/1000000000000000000)+" Ether";
-                var time=new Date(resultdata.data[i].time).format("yyyy-MM-dd hh:mm:ss");
-                $("#moretxs").append("<tr><td>"+hash+"</td><td>"+block_id+"</td>" +
-                    "<td>"+sender+"</td><td>"+recipient+"</td><td>"+amount+"</td><td>"+time+"</td>" + "</tr>");
-            }
-            if(length<50){
-                number=number-1;
-                console.log(number);
-                txurl="https://etherchain.org/api/block/"+number+":id/tx";
-                $.getJSON(txurl,function (resultdata) {
-                    for(i=0;i<50-length;i++){
-                        var hash=resultdata.data[i].hash.substring(0,9)+"...";
-                        var block_id=resultdata.data[i].block_id;
-                        var sender=resultdata.data[i].sender.substring(0,9)+"...";
-                        var recipient=resultdata.data[i].recipient.substring(0,9)+"...";
-                        var amount=(resultdata.data[i].amount/1000000000000000000)+" Ether";
-                        var time=new Date(resultdata.data[i].time).format("yyyy-MM-dd hh:mm:ss");
-                        $("#moretxs").append("<tr><td>"+hash+"</td><td>"+block_id+"</td>" +
-                            "<td>"+sender+"</td><td>"+recipient+"</td><td>"+amount+"</td><td>"+time+"</td>" + "</tr>");
-                    }
-                })
-            }
+            console.log(name);
+            $("#miner").append(name);
         })
-
     })
+
     function GetQueryString(name)
     {
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -213,4 +183,5 @@
         if(r!=null)return  unescape(r[2]); return null;
     }
 </script>-->
+</body>
 </html>
