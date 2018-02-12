@@ -37,7 +37,7 @@ namespace Faucet.Web.Controllers
                 return View(transaction);
             }
 
-            string nodeIpAddress = "127.0.0.1:5000";
+            string nodeIpAddress = "http://192.168.164.223:5555";
             string newTransactionPostUrl = "/transactions/new";
             string privateKeyStr = "7e4670ae70c98d24f3662c172dc510a085578b9ccc717e6c2f4e547edd960a34";
 
@@ -74,6 +74,12 @@ namespace Faucet.Web.Controllers
                 response = request.GetResponse();
                 statusCode = ((HttpWebResponse)response).StatusCode;
 
+
+                var responseReader = new StreamReader(response.GetResponseStream());
+                var responseData = responseReader.ReadToEnd();
+
+                var d = Newtonsoft.Json.JsonConvert.DeserializeObject<TransactionViewModel>(responseData);
+
                 /* response data template
                  * {
                  * "dateReceived": "2018-02-01T23:17:02.744Z",
@@ -82,7 +88,7 @@ namespace Faucet.Web.Controllers
                  */
 
                 transaction.MessageResponse = statusCode.ToString() + ": " + ((HttpWebResponse)response).StatusDescription;
-                transaction.TransactionHash = "TransactionHash: pdasd3334t45fffdllozn44mja99qjjiuo2ygfytf4551ug44eqrtf2";// todo: display the transaction hash from the response
+                transaction.transactionHash =  d.transactionHash;// todo: display the transaction hash from the response
             }
             catch (Exception ex)
             {
