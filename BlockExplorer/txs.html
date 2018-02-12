@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BlockChain Explorer">
+    <meta name="author" content="Test Project">
+    <meta name="keywords"
+          content="blockchain, explorer, testnet, etherchain">
+    <meta name="theme-color" content="#18bc9c">
+    <link rel="icon" href="css/blockchainIcon.png">
+    <title>Transactions - BlockChain Explorer</title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/r/bs/dt-1.10.9/datatables.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/2.0.7/bignumber.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+    <script src="dateformat.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar" class="navbar-toggle collapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" title="TestNet" class="navbar-brand">
+                <span class="glyphicon glyphicon-link"></span> TestNet Explorer</a></div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-eye-open"></span> BlockChain<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blocks.html"><span class="glyphicon glyphicon-book"></span> View Blocks</a></li>
+						<li><a href="uncles.html"><span class="glyphicon glyphicon-book"></span> View Uncles</a></li>
+                        <li><a href="txs.html?"><span class="glyphicon glyphicon-transfer"></span> View Transactions</a></li>
+						<li><a href="ptxs.html?"><span class="glyphicon glyphicon-transfer"></span> View Pending Transactions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-list-alt"></span> Accounts<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="acounts.html">Accounts</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle">
+                    <div class="span glyphicon glyphicon-wrench"></div>
+                    Tools<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://ens.etherchain.org/" target="_blank"><span
+                                class="glyphicon glyphicon-globe"></span> Ethereum Name Service</a></li>
+                        <li><a href="https://www.ethernodes.org/" target="_blank">Nodes Explorer</a></li>
+                        <li><a href="https://github.com/gobitfly/etherchain-light" target="_blank">Etherchain Light</a>
+                        </li>
+                        <li><a href="https://github.com/gobitfly/erc20-explorer" target="_blank">ERC20 Token
+                            explorer</a></li>
+                        <li><a href="https://www.etherchain.org/documentation/api/">API</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form action="search" method="POST" class="navbar-form navbar-right">
+                <div class="form-group"><input type="text" placeholder="Tx Hash, Address or Block number"
+                                               id="search" name="search" class="form-control input-sm"></div>
+                <button type="submit" style="margin-left: 2px" class="btn btn-success">
+                    <span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="txs" class="container"><h2>Transactions</h2>
+    <nav></nav>
+    <ul class="pagination">
+        <li><a href="/txs/50" aria-label="Previous" id="previous"><span aria-hidden="true">&laquo; Previous page</span></a></li>
+    </ul>
+    <table class="table table-condensed">
+        <th>Hash value</th>
+        <th>Block number</th>
+        <th>Sent from</th>
+        <th>Conformations</th>
+        <th>Amount</th>
+        <th>Time</th>
+        </thead>
+			<tr>
+				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c2</a></td>
+				<td><a href="">0000000006</a></td>
+				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e8y</a></td>
+				<td>7</td>
+                <td>21.72 Ether </td>
+				<td>21:32:07-27/1/18</td>
+            </tr>
+			<tr>
+				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c1</a></td>
+				<td><a href="">0000000005</a></td>
+				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e6f</a></td>
+				<td>8</td>
+                <td>1.2 Ether </td>
+				<td>16:13:55-21/1/18</td>
+            </tr>
+			<tr>
+				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c9</a></td>
+				<td><a href="">0000000004</a></td>
+				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e5d</a></td>
+				<td>10</td>
+                <td>2.7 Ether </td>
+				<td>2:25:00-15/1/18</td>
+            </tr>
+			<tr>
+				<td><a href="tx.html">0x22b84d5ffea8b801c0422afe752377a64aa738c8</a></td>
+				<td><a href="">0000000003</a></td>
+				<td><a href="acount.html">d9fc57d8c21efcbce1d55abdd4e225e5x</a></td>
+				<td>5</td>
+                <td>2.7 Ether </td>
+				<td>1:32:07-1/1/18</td>
+            </tr>
+        <tbody id="moretxs">
+        </tbody>
+    </table>
+</div>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<hr>
+<div class="container">
+    <footer><p>© Test Net | Test Network Blockchain Explorer  | Written in accordance with free MIT license | Source
+        <a href="https://www.etherchain.org">www.etherchain.org</a> | Powered by Parity v1.7.8</p>
+    </footer>
+</div>
+</body>
+<!--<script>
+    var number=GetQueryString("number");
+    var baseurl = "https://etherchain.org/api/basic_stats";
+    $.ajaxSettings.async = false;//同步ajax请求
+    $.getJSON(baseurl, function (result) {
+        var result = eval(result);
+        if (number==null) {
+            number=result.data.difficulty.number;
+        }
+
+        console.log("number="+number);
+        number=parseInt(number);
+        numberpre=parseInt(number)-1;
+        var myurlpre="txs.html?number="+numberpre;
+        $("#previous").attr("href",myurlpre);
+
+        txurl="https://etherchain.org/api/block/"+number+":id/tx"
+        $.getJSON(txurl,function (resultdata) {
+            var resultdata = eval(resultdata);
+            var length;
+            if(resultdata.data.length>=50){
+                length=50;
+            }else {
+                length=resultdata.data.length;
+            }
+            for(i=0;i<length;i++){
+                var hash=resultdata.data[i].hash.substring(0,9)+"...";
+                var block_id=resultdata.data[i].block_id;
+                var sender=resultdata.data[i].sender.substring(0,9)+"...";
+                var recipient=resultdata.data[i].recipient.substring(0,9)+"...";
+                var amount=(resultdata.data[i].amount/1000000000000000000)+" Ether";
+                var time=new Date(resultdata.data[i].time).format("yyyy-MM-dd hh:mm:ss");
+                $("#moretxs").append("<tr><td>"+hash+"</td><td>"+block_id+"</td>" +
+                    "<td>"+sender+"</td><td>"+recipient+"</td><td>"+amount+"</td><td>"+time+"</td>" + "</tr>");
+            }
+            if(length<50){
+                number=number-1;
+                console.log(number);
+                txurl="https://etherchain.org/api/block/"+number+":id/tx";
+                $.getJSON(txurl,function (resultdata) {
+                    for(i=0;i<50-length;i++){
+                        var hash=resultdata.data[i].hash.substring(0,9)+"...";
+                        var block_id=resultdata.data[i].block_id;
+                        var sender=resultdata.data[i].sender.substring(0,9)+"...";
+                        var recipient=resultdata.data[i].recipient.substring(0,9)+"...";
+                        var amount=(resultdata.data[i].amount/1000000000000000000)+" Ether";
+                        var time=new Date(resultdata.data[i].time).format("yyyy-MM-dd hh:mm:ss");
+                        $("#moretxs").append("<tr><td>"+hash+"</td><td>"+block_id+"</td>" +
+                            "<td>"+sender+"</td><td>"+recipient+"</td><td>"+amount+"</td><td>"+time+"</td>" + "</tr>");
+                    }
+                })
+            }
+        })
+
+    })
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+</script>-->
+</html>

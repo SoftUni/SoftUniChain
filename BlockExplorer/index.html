@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="BlockChain Explorer">
+    <meta name="author" content="Test Project">
+    <meta name="keywords"
+          content="blockchain, explorer, testnet, etherchain">
+    <meta name="theme-color" content="#18bc9c">
+    <link rel="icon" href="css/blockchainIcon.png">
+    <title>BlockChain Explorer - Main Page</title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/r/bs/dt-1.10.9/datatables.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.min.css">
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/2.0.7/bignumber.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar" class="navbar-toggle collapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" title="TestNet" class="navbar-brand">
+                <span class="glyphicon glyphicon-link"></span> TestNet Explorer</a></div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-eye-open"></span> Block Chain<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blocks.html"><span class="glyphicon glyphicon-book"></span> View Blocks</a></li>
+						<li><a href="uncles.html"><span class="glyphicon glyphicon-book"></span> View Uncles</a></li>
+                        <li><a href="txs.html?"><span class="glyphicon glyphicon-transfer"></span> View Transactions</a></li>
+						<li><a href="ptxs.html?"><span class="glyphicon glyphicon-transfer"></span> View Pending Transactions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-list-alt"></span> Accounts<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="acounts.html">Accounts</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle">
+                    <div class="span glyphicon glyphicon-wrench"></div>
+                    Tools<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://ens.etherchain.org/" target="_blank"><span
+                                class="glyphicon glyphicon-globe"></span> Ethereum Name Service</a></li>
+                        <li><a href="https://www.ethernodes.org/" target="_blank">Nodes Explorer</a></li>
+                        <li><a href="https://github.com/gobitfly/etherchain-light" target="_blank">Etherchain Light</a>
+                        </li>
+                        <li><a href="https://github.com/gobitfly/erc20-explorer" target="_blank">ERC20 Token
+                            explorer</a></li>
+                        <li><a href="https://www.etherchain.org/documentation/api/">API</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form action="search" method="POST" class="navbar-form navbar-right">
+                <div class="form-group"><input type="text" placeholder="Tx Hash, Address or Block number"
+                                               id="search" name="search" class="form-control input-sm"></div>
+                <button type="submit" style="margin-left: 2px" class="btn btn-success">
+                    <span class="glyphicon glyphicon-search"></span></button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="home" class="container">
+    <div class="row">
+        <div class="col-md-12"><h2 class="text-center">Test Net Status</h2></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 text-center glyphicon glyphicon-option-horizontal"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+				<div class="panel-body"><h4>000000000</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-right"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000001</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-right"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-success">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000002</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-right"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-warning">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000003</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-10 text-center glyphicon glyphicon-arrow-down"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-1 col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-success">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000007</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-left"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000006</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-left"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000005</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-left"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-danger">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000004</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1 text-center glyphicon glyphicon-arrow-down"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-warning">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000008</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-arrow-right"></div>
+        <div class="col-md-2 text-center">
+            <div data-toggle="tooltip" data-placement="top"
+                 class="panel panel-danger">
+                <div class="panel-heading"><h3 class="panel-title">Block Number:</h3></div>
+                <div class="panel-body"><h4>000000009</h4></div>
+            </div>
+        </div>
+        <div class="col-md-1 text-center glyphicon glyphicon-option-horizontal"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4"><h2 class="text-center">Latest Blocks</h2>
+            <div class="table-responsive">
+                <table class="table table-condensed table-striped table-hover border-right">
+                    <thead>
+                    <tr>
+                        <th>Block Number</th>
+                        <th>Mined By</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+					
+					<tr>
+						<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000004</a></td>
+						<td>miner 6</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					<tr>
+						<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000003</a></td>
+						<td>miner 3</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					<tr>
+						<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000002</a></td>
+						<td>miner 1</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					<tr>
+						<td><a href="block.html"><span class="glyphicon glyphicon-book"></span> 00000000001</a></td>
+						<td>miner 2</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					
+					<tbody id="recentblocks">
+                    </tbody>
+                </table>
+            </div>
+            <a href="blocks.html" role="button" class="btn btn-default">See more blocks</a></div>
+        <div class="col-md-8"><h2 class="text-center">Latest Transactions</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Hash value</th>
+                        <th>Block number</th>
+                        <th>Sent from</th>
+                        <th>Sent to</th>
+                        <th>Amount</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+					<tr>
+						<td><a href="block.html">0x0c5241...</a></td>
+						<td><a href="block.html">0000000004</a></td>
+						 <td><a href="/account/0x22b84d5ffea8b801c0422afe752377a64aa738c2">0x22B84d5FFeA8b...</a></td>
+						<td><a href="/account/0xa5d9fc57d8c21efcbce1d55abdd4e225e5ddfbd2">0xa5d9fC57d8c21...</a></td>
+						<td>121</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					<tr>
+						<td><a href="block.html">0x0c5231...</a></td>
+						<td><a href="block.html">0000000003</a></td>
+						 <td><a href="/account/0x22b84d5ffea8b801c0422afe787377a64aa738c2">0x22B84d5FFeA8b...</a></td>
+						<td><a href="/account/0xa5d9fc57d8c21efcbce1d55abdd4e225e5ddfbd2">0xa5d9fC57d8c21...</a></td>
+						<td>11</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					<tr>
+						<td><a href="block.html">0x0c5221...</a></td>
+						<td><a href="block.html">0000000002</a></td>
+						 <td><a href="/account/0x22b84d5ffea8b801c0422afe787377a64aa738c2">0x22B84d5FFeA8b...</a></td>
+						<td><a href="/account/0xa5d9fc57d8c21efcbce1d55abdd4e225e5ddfbd2">0xa5d9fC57d8c21...</a></td>
+						<td>3</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+					<tr>
+						<td><a href="block.html">0x0c5211...</a></td>
+						<td><a href="block.html">0000000001</a></td>
+						 <td><a href="/account/0x22b84d5ffea8b801c0422afe787377a64aa738c2">0x22B84d5FFeA8b...</a></td>
+						<td><a href="/account/0xa5d9fc57d8c21efcbce1d55abdd4e225e5ddfbd2">0xa5d9fC57d8c21...</a></td>
+						<td>7</td>
+						<td>21:32:07-21/11/18</td>
+					</tr>
+                    
+                    <tbody id="recentTxs">
+
+                    </tbody>
+                </table>
+            </div>
+            <a href="txs.html?" role="button" class="btn btn-default">See more transactions</a></div>
+
+    </div>
+</div>
+<hr>
+<div class="container">
+    <footer><p>© Test Net | Test Network Blockchain Explorer  | Written in accordance with free MIT license | Source
+        <a href="https://www.etherchain.org">www.etherchain.org</a> | Powered by Parity v1.7.8</p>
+    </footer>
+</div>
+</body>
+<!-- <script src="dateformat.js"></script>
+<script type="text/javascript">
+    var priceurl = "https://etherchain.org/api/statistics/price";
+    var baseurl = "https://etherchain.org/api/basic_stats";
+    var txurl;
+    $.getJSON(priceurl, function (result) {
+        var result = eval(result);
+        usd = result.data[result.data.length - 1].usd;
+        $("#price").append("$" + usd);
+    })
+
+    $.getJSON(baseurl, function (result) {
+        var result = eval(result);
+        var difficulty = result.data.difficulty.difficulty;
+        var blockTime = result.data.difficulty.blockTime;
+        var number = result.data.difficulty.number;
+        var name = result.data.difficulty.name;
+        txurl = "https://etherchain.org/api/block/" + number + ":id/tx";
+        $.getJSON(txurl, function (resultdata) {
+            var resultdata = eval(resultdata);
+            var length;
+            if (resultdata.data.length >= 10) {
+                length = 10;
+            } else {
+                length = resultdata.data.length;
+            }
+            for (i = 0; i < length; i++) {
+                var hash = resultdata.data[i].hash.substring(0, 9) + "...";
+                var block_id = resultdata.data[i].block_id;
+                var sender = resultdata.data[i].sender.substring(0, 9) + "...";
+                var recipient = resultdata.data[i].recipient.substring(0, 9) + "...";
+                var amount = (resultdata.data[i].amount / 1000000000000000000).toFixed(3) + " Ether";
+                var time = formatDuring(new Date().getTime() - new Date(resultdata.data[i].time).getTime());
+                $("#recentTxs").append("<tr><td>" + hash + "</td><td><a href='block.html?number="+block_id+"'>" +
+                    block_id +
+                    "</a> </td>" +
+                    "<td>" + sender + "</td><td>" + recipient + "</td><td>" + amount + "</td><td>" + time + "</td>" + "</tr>");
+            }
+            if (length < 10) {
+                number = number - 1;
+                console.log(number);
+                txurl = "https://etherchain.org/api/block/" + number + ":id/tx";
+                var coinbaseurl = "https://etherchain.org/api/block/" + number + ":id";
+                var coinbase;
+                $.getJSON(coinbaseurl, function (resultdata) {
+                    coinbase = resultdata.data[0].coinbase;
+                    var nameurl = "https://etherchain.org/api/account/multiple/" + coinbase + ":ids";
+                    $.getJSON(coinbaseurl, function (resultdata) {
+                        name = resultdata.data[0].name;
+                        $.getJSON(txurl, function (resultdata) {
+                            for (i = 0; i < 10 - length; i++) {
+                                var hash = resultdata.data[i].hash.substring(0, 9) + "...";
+                                var block_id = resultdata.data[i].block_id;
+                                var sender = resultdata.data[i].sender.substring(0, 9) + "...";
+                                var recipient = resultdata.data[i].recipient.substring(0, 9) + "...";
+                                var amount = (resultdata.data[i].amount / 1000000000000000000).toFixed(3) + " Ether";
+                                var time = (new Date().getTime() - new Date(resultdata.data[i].time).getTime());
+                                $("#recentTxs").append("<tr><td>" + hash + "</td><td><a href='block.html?number="+block_id+"'>" +
+                                    block_id +
+                                    "</a> </td>" +
+                                    "<td>" + sender + "</td><td>" + recipient + "</td><td>" + amount + "</td><td>" + time + "</td>" + "</tr>");
+                            }
+                        })
+                    })
+                })
+
+
+            }
+        })
+
+        $("#difficulty").append((difficulty / 1000000000000).toFixed(3) + " T");
+        $("#blockTime").append(blockTime + "s");
+        for (i = 0; i < 10; i++) {
+            var number = result.data.blocks[i].number;
+            var name = result.data.blocks[i].name;
+            /*var time=new Date(result.data.blocks[i].time).getTime();*/
+            var time = formatDuring(new Date().getTime() - new Date(result.data.blocks[i].time).getTime());
+            /*var time=formatDuring(new Date().getUTCMilliseconds()-new Date(result.data.blocks[i].time).getUTCMilliseconds());*/
+            var coinbase = result.data.blocks[i].coinbase;
+            var subname;
+            if (name.length > 10) {
+                subname = name.substring(0, 10) + "...";
+            } else {
+                subname = name;
+            }
+            $("#block"+i).append(number);
+            $("#recentblocks").append("<tr><td><a href='block.html?number="+ number+"'>" +
+                "" + number + "</a></td>" + "<td><a href='acount.html?coinbase=" + coinbase + "'>" +
+                subname +
+                "</td>" + "<td>" +
+                time +
+                "</td>" +
+                "</tr>");
+        }
+    })
+    $.getJSON(txurl, function (result) {
+        var result = eval(result);
+        lastnumber = result.data[result.data.length - 1].usd;
+    })
+
+</script> -->
+</html>
