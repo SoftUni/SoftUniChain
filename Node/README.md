@@ -491,7 +491,7 @@ Add new peer
     **Content:** 
     ```javascript
     {
-      "error": "
+      "error": "Something went wrong!"
     }
     ```
 
