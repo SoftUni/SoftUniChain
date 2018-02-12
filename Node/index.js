@@ -47,7 +47,7 @@ let getGenesisBlock = () => {
 module.exports.blockchain = [getGenesisBlock()];
 module.exports.pendingTransactions = [];
 module.exports.miningJobs = [];
-module.exports.difficulty = 5;
+module.exports.difficulty = 6;
 module.exports.peers = [];
 balances = [];
 balances[faucetAddress.toString()] = 12398178923123;

@@ -55,15 +55,32 @@ module.exports.getNodeBlockByIndex = (req, res, next) => {
 module.exports.getNodeBalanceByAddress = (req, res, next) => {
     let address = req.params['address'];
     let confirmCount = parseInt(req.params['confirmCount']);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(
-        {
-            "address": address,
-            "confirmedBalance": main.balances[address.toString()],
-            "lastMinedBalance": main.balances[address.toString()],
-            "pendingBalance": main.balances[address.toString()]
-        }
-    )
+
+    let balance = main.balances[address.toString()];
+    if (balance){
+        res.setHeader('Content-Type', 'application/json');
+        res.send(
+            {
+                "address": address,
+                "confirmedBalance": main.balances[address.toString()],
+                "lastMinedBalance": main.balances[address.toString()],
+                "pendingBalance": main.balances[address.toString()]
+            }
+        )
+    }
+    else{
+        res.setHeader('Content-Type', 'application/json');
+        res.send(
+            {
+                "address": address,
+                "confirmedBalance": 0,
+                "lastMinedBalance": 0,
+                "pendingBalance": 0
+            }
+        )
+    }
+
+
 }
 
 module.exports.postNewTransaction = (req, res, next) => {
@@ -105,7 +122,7 @@ module.exports.postNewTransaction = (req, res, next) => {
         res.status(400);
         res.send(
             {
-                "error": "Nqqsh pari chuek"
+                "error": "Insufficient funds!"
             }
         )
     }
@@ -124,18 +141,29 @@ module.exports.getMiningBlock = (req, res, next) => {
 // TODO: send correct data
 module.exports.getTransactionInfo = (req, res, next) => {
     let tranHash = req.params['tranHash'];
+
+    main.blockchain.forEach((block, index) => {
+       block.transactions.forEach((transaction, index) => {
+           if(transaction.transactionHash.toUpperCase() == tranHash.toUpperCase()){
+               res.setHeader('Content-Type', 'application/json');
+               transaction.status = "Paid";
+               res.send(transaction)
+           }
+       })
+    })
+
+    main.pendingTransactions.forEach((transaction) => {
+        if(transaction.transactionHash.toUpperCase() == tranHash.toUpperCase()){
+            res.setHeader('Content-Type', 'application/json');
+            transaction.status = "Pending";
+            res.send(transaction)
+        }
+    })
+
     res.setHeader('Content-Type', 'application/json');
     res.send(
         {
-            "from": "44fe0696beb6e24541cc0e8728276c9ec3af2675",
-            "to": "9a9f082f37270ff54c5ca4204a0e4da6951fe917",
-            "value": 25.00,
-            "senderPubKey": "2a1d79fb8743d0a4a8501e0028079bcf82a4feae1",
-            "senderSignature": ["e20ca3c29d3370f79f", "cf920acd0c132ffe56"],
-            "transactionHash": tranHash,
-            "paid": true,
-            "dateReceived": "2018-02-01T07:47:51.982Z",
-            "minedInBlockIndex": 7
+            "error": "Invalid transaction hash!"
         }
     )
 }
