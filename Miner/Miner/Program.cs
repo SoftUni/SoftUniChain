@@ -22,12 +22,8 @@ namespace Miner
             //'difficulty':5
             //}";
 
-            //String nodeIpAddress = args[0];
-            //String minerAddress = args[1];
-
-            String nodeIpAddress = "http://localhost:5555";
-            String minerAddress = "f582d57711a618e69d588ce93895d749858fa95b";
-
+            String nodeIpAddress = args[0];
+            String minerAddress = args[1];
 
             WebResponse response = null;
             HttpStatusCode statusCode = HttpStatusCode.RequestTimeout;
