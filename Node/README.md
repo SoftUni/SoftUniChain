@@ -212,48 +212,256 @@ Block info by index
   
 Address balance
 ----
-  Returns json data with requested address balance with requested confirmations accuracy. (in development)
-```[GET] /balance/:address/confirmations/:confirmCount``` 
+  Returns json data with requested address balance with requested confirmations accuracy.  (in development)
+* **URL**
+
+  `/balance/:address/confirmations/:confirmCount`
+
+* **Method:**
+
+  `GET`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```javascript
+    {
+      "address": "f582d57711a618e69d588ce93895d749858fa95b",
+      "balance": 1239,
+      "confirmations": 6
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** 
+    ```javascript
+    {
+      "error": "Something went wrong!"
+    }
+    ```
 
 
 Receive new transaction
 ----
   Receive new transaction.
-```[POST] /transactions/new```
+
+* **URL**
+
+  /transactions/new
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  `from=[string]`
+  
+  `to=[string]`
+  
+  `value=[integer]`
+  
+  `senderPubKey=[string]`
+  
+  `senderSignature=[array][string]`
+  
+  `dateCreated=[string]`
+  
+  
+  ** Example **
+  ```javascript
+  {
+    "from": "434fe012382830696beb632e24541c3c201e8728276c9ec3fffaf2675",
+    "to": "9a9f082f37270ff54c12125ca4204a0e34da695cacc1fe9127",
+    "value": 22333,
+    "senderPubKey": "2a1d79fb8743d30a4a8501e0028079bcf82a4ddeae1",
+    "senderSignature": ["e20a3ec29d3370f79f", "cf90acd0c132ffe56"],
+    "dateCreated": "2018-02-01T23:23:56.337Z"
+  }
+  ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```javascript
+    {
+      "dateReceived": "Mon Feb 12 2018 13:02:57 GMT+0200 (EET)",
+      "transactionHash": "fdce3256c70f2329bdcd2a58f8d6a38236207235b15616e2607c2d723c005235"
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 <br />
+    **Content:** 
+    ```javascript
+    { 
+      "error" : "Node is offline or something other is wrong!"
+    }
+    ```
 
 
 Get transaction info
 ----
   Returns json data with transaction info. (in development)
-```[GET] /transactions/:tranHash/info```
+  
+* **URL**
+
+  /transactions/:transactionsHash/info
+
+* **Method:**
+
+  `GET`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```javascript
+    {
+        "fromAddress": "0x0",
+        "toAddress": "f582d57711a618e69d588ce93895d749858fa95b",
+        "value": 25,
+        "senderPubKey": "",
+        "senderSignature": "",
+        "transactionHash": "",
+        "dateReceived": 1518433635353,
+        "minedInBlockIndex": 42,
+        "paid": false
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:**
+    ```javascript
+    {
+      "error" : "Transaction does not exist!"
+    }
+    ```
 
 
 Get pending transactions
 ----
-  Returns json data with node's information.
-```[GET] /transactions/pending```
+  Returns json data with pending transactions.
+  
+* **URL**
+
+  `/transactions/pending`
+
+* **Method:**
+
+  `GET`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```javascript
+    {
+      {
+          "fromAddress": "0x0",
+          "toAddress": "f582d57711a618e69d588ce93895d749858fa95b",
+          "value": 25,
+          "senderPubKey": "",
+          "senderSignature": "",
+          "transactionHash": "",
+          "dateReceived": 1518432018293,
+          "minedInBlockIndex": 1,
+          "paid": false
+      },
+      {
+          "fromAddress": "0x0",
+          "toAddress": "f582d57711a618e69d588ce93895d749858fa95b",
+          "value": 25,
+          "senderPubKey": "",
+          "senderSignature": "",
+          "transactionHash": "",
+          "dateReceived": 1518432022968,
+          "minedInBlockIndex": 1,
+          "paid": false
+      },
+      {...}, {...}, {...}
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** 
+    ```javascript
+    {
+      "error": "Something went wrong!"
+    }
+    ```
+  
 
 Notify blocks
 ----
   Returns json data with node's information.
+  
 ```[POST] /blocks/notify```
 
 Get peers
 ----
   Returns json data with node's information.
+
+* **URL**
+
+  /peers
+
+* **Method:**
+
+  `GET`
+  
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{ id : 12, name : "Michael Bloom" }`
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "User doesn't exist" }`
+
+  
 ```[GET] /peers```
 
 Add new peer
 ----
   Receive new peer data.
+  
 ```[POST] /peers```
 
 Get mining job
 ----
   Returns json object with new block for mining.
+  
 ```[GET] /mining/get-block/:address```
 
 Receive Proof-of-Work
 ----
   Receive Proof-of-Work data.
+  
 ```[POST] /mining/get-block/:address```
