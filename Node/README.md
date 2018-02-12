@@ -19,7 +19,7 @@ Info
 
 * **URL**
 
-  /info
+ `/info`
 
 * **Method:**
 
@@ -64,7 +64,7 @@ Blocks
 
 * **URL**
 
-  /blocks
+  `/blocks`
 
 * **Method:**
 
@@ -147,7 +147,7 @@ Block info by index
 
 * **URL**
 
-  /blocks/:index
+  `/blocks/:index`
 
 * **Method:**
 
@@ -254,7 +254,7 @@ Receive new transaction
 
 * **URL**
 
-  /transactions/new
+  `/transactions/new`
 
 * **Method:**
 
@@ -270,7 +270,7 @@ Receive new transaction
   
   `senderPubKey=[string]`
   
-  `senderSignature=[array][string]`
+  `senderSignature= array<string>`
   
   `dateCreated=[string]`
   
@@ -315,7 +315,7 @@ Get transaction info
   
 * **URL**
 
-  /transactions/:transactionsHash/info
+  `/transactions/:transactionsHash/info`
 
 * **Method:**
 
@@ -419,13 +419,14 @@ Notify blocks
   
 ```[POST] /blocks/notify```
 
+
 Get peers
 ----
-  Returns json data with node's information.
+  Returns json data with peers information.
 
 * **URL**
 
-  /peers
+  `/peers`
 
 * **Method:**
 
@@ -438,30 +439,140 @@ Get peers
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{ id : 12, name : "Michael Bloom" }`
+    **Content:**
+    ```javascript
+    {
+      "http://192.168.0.1",
+      "http://192.168.0.2",
+      "http://192.168.0.3"
+    }
+    ```
  
 * **Error Response:**
 
   * **Code:** 404 NOT FOUND <br />
-    **Content:** `{ error : "User doesn't exist" }`
+    **Content:** 
+    ```javascript
+    {
+      "error": "Something went wrong!"
+    }
+    ```
 
-  
-```[GET] /peers```
 
 Add new peer
 ----
-  Receive new peer data.
+  Receive json data with new peer info.
+
+* **URL**
+
+  `/peers`
+
+* **Method:**
+
+  `POST`
   
-```[POST] /peers```
+* **Data Params**
+
+  `url=[string]`
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```javascript
+    {
+      "message": "Added peer: http://192.168.112.123"
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** 
+    ```javascript
+    {
+      "error": "
+    }
+    ```
 
 Get mining job
 ----
   Returns json object with new block for mining.
+
+* **URL**
+
+  `/mining/get-block/:address`
+
+* **Method:**
+
+  `GET`
   
-```[GET] /mining/get-block/:address```
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```javascript
+    {
+      "index": 1,
+      "transactionsHash": "4ea5c508a6566e76240543f8feb06fd457777be39549c4016436afda65d2330e",
+      "prevBlockHash": "1e4024840e9ad3d8be334d8b3cc51ffbfb6beac8d9bff4576dbc335761501bfb",
+      "difficulty": 5
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:**
+    ```javascript
+    {
+      "error": "Error!"
+    }
+    ```
+
 
 Receive Proof-of-Work
 ----
   Receive Proof-of-Work data.
+
+* **URL**
+
+  `/mining/get-block/:address`
+
+* **Method:**
+
+  `POST`
   
-```[POST] /mining/get-block/:address```
+* **Data Params**
+
+  `nonce=[integer]`
+  
+  `blockHash=[string]`
+  
+  `dateCreated=[timestamp]`
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```javascript
+    {
+      "nonce": 246330,
+      "blockHash": "0000045ED509048696CDFD9BBFDEDEC393E9EA144FE74BA7A7A4EDA3245FBC3B",
+      "dateCreated": "2018-02-12T11:07:16.2021920Z"
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:**
+    ```javascript
+    {
+      "error": "Something went wrong!"
+    }
+    ```
