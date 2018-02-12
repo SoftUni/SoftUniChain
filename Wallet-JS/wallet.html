@@ -64,21 +64,21 @@
         <section id="viewAccountBalance">
             <h1>View Account Balance</h1>
             <div>Address:
-			<input type="text" id="textBoxAccountAddress" class="address" disabled="true" /></div>
-            Blockchain Node: <input type="text" id="textBoxNodeAccountBalance" value="http://node526362.herokuapp.com" class="node-address">
+			<input type="text" id="textBoxAccountAddress" class="address"/></div>
+            Blockchain Node: <input type="text" id="textBoxNodeAccountBalance" value="http://192.168.164.223:5555" class="node-address">
             <input type="button" id="buttonDisplayBalance" value="Display Balance" />
             <textarea id="textareaAccountBalanceResult" class="result" readonly="true"></textarea>
         </section>
 
         <section id="viewSendTransaction">
             <h1>Send Transaction</h1>
-            <div>Sender: <input type="text" name="senderAddress" disabled="true" class="address" /></div>
+            <div>Sender: <input type="text" name="senderAddress" class="address" /></div>
             <div>Recipient: <input type="text" name="recipientAddress" class="address" /></div>
             <div>Value: <input type="number" name="transferAmount" /></div>
             <input type="button" id="buttonSignTransaction" value="Sign Transaction" />
             <textarea id="textareaSignedTransaction" class="signedTransaction" readonly="true"></textarea>
 			
-			Blockchain Node: <input type="text" id="textBoxNodeAccountBalance" value="http://node526362.herokuapp.com" class="node-address">
+			Blockchain Node: <input type="text" id="textBoxNodeAccountBalance" value="http://192.168.164.223:5555" class="node-address">
 			<input type="button" id="buttonSendSignedTransaction" value="Send Transaction" />
             <textarea id="textareaSendTransactionresult" class="result" readonly="true"></textarea>
         </section>

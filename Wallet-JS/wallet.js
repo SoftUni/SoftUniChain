@@ -60,7 +60,7 @@ $(document).ready(function() {
 	function openExistingWallet() {
 		let userPrivateKey = $('#textBoxPrivateKey').val();
 		let ec = new elliptic.ec('secp256k1');
-		let keyPair = ec.keyFromPrivate(userPrivateKey);
+        let keyPair = ec.keyFromPrivate(userPrivateKey);
 		saveKeys(keyPair);
 		
 		$('#textareaOpenWalletResult').text(
@@ -71,15 +71,90 @@ $(document).ready(function() {
     }
 	
 	function displayBalance() {
-        // TODO
+        //TODO
     }
 	
 	function signTransaction() {
-        // TODO
+      let privateKey = window.prompt("To sign a transaction you have to write down your private key")
+      
+      if(privateKey) {
+        let ec = new elliptic.ec('secp256k1')
+        let keyPair = ec.keyFromPrivate(privateKey)
+        let publicKey = keyPair.getPublic().getX().toString(16) + (keyPair.getPublic().getY().isOdd() ? "1" : "0")
+
+        let from = $('input[name="senderAddress"]').val()
+        let to = $('input[name="recipientAddress"]').val()
+        let value = $('input[name="transferAmount"]').val()
+        let senderPubKey = publicKey
+        let senderSignature = [""]
+        let dateCreated = new Date().toString()
+
+        let transaction = {
+            from:from,
+            to:to,
+            value:value,
+            senderPubKey:senderPubKey,
+            senderSignature:senderSignature,
+            dateCreated:dateCreated
+        }
+
+        let transactionJson = JSON.stringify(transaction)
+
+        let signedTransaction = [from,publicKey]
+
+        $('#textareaSignedTransaction').val(signedTransaction)
+      }
+      else {
+          window.alert("Invalid private key")
+      }
     }
 	
 	function sendSignedTransaction() {
-        // TODO
+        let nodeUrl = $('#textBoxNodeAccountBalance').val()
+        let url = nodeUrl + '/transactions/new'
+        let signedTransaction =  $('#textareaSignedTransaction').val()
+
+        let from = $('input[name="senderAddress"]').val()
+        let to = $('input[name="recipientAddress"]').val()
+        let value = $('input[name="transferAmount"]').val()
+        let senderPubKey = sessionStorage['pubKey']
+        let senderSignature = signedTransaction.split(',')
+        let dateCreated = "2018-02-01T23:23:56.337Z"
+
+        let signatureArray = [senderSignature[0], senderSignature[1]]
+        let transaction = {
+            from:from,
+            to:to,
+            value: Number(value),
+            senderPubKey:senderPubKey,
+            senderSignature:signatureArray,
+            dateCreated:dateCreated
+        }
+        
+        $.ajax({
+            url: url,
+            method: 'post',
+            dataType: 'json',
+            data: transaction,
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(err){
+                console.log(err);
+            }
+         })
+        // fetch(url, {
+        //     method: "post",
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //       },
+            
+        //  body: transaction
+        // })
+        // .then((response) => {
+        //     console.log(response)
+        // })
     }
 
 	function logout() {
