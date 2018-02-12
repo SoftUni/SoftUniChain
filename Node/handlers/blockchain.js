@@ -58,17 +58,21 @@ module.exports.miningJob = (minerAddress) => {
     let expectedReward = 25;
     let index = this.getLatestBlock().index + 1;
 
+
     let coinBaseTransaction = new Transaction(
         "0x0",          // fromAddress
         minerAddress,   // toAddress
         expectedReward, // transactionValue,
         "",             // senderPubKey
-        "",             //  senderSignature,
+        "",             // senderSignature,
         "",             // transactionHash,
         Date.now(),     // dateReceived,
         index,          // minedInBlockIndex,
         false           // paid
     );
+
+    let transactionHash = CryptoJS.SHA256(coinBaseTransaction.fromAddress + coinBaseTransaction.toAddress + coinBaseTransaction.value + coinBaseTransaction.dateReceived);
+    coinBaseTransaction.transactionHash = transactionHash.toString();
 
     let pendingTransactions = main.pendingTransactions;
     pendingTransactions.push(coinBaseTransaction);

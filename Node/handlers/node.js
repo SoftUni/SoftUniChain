@@ -55,18 +55,6 @@ module.exports.getNodeBlockByIndex = (req, res, next) => {
 module.exports.getNodeBalanceByAddress = (req, res, next) => {
     let address = req.params['address'];
     let confirmCount = parseInt(req.params['confirmCount']);
-
-    // TODO: send correct data
-    // res.setHeader('Content-Type', 'application/json');
-    // res.send(
-    //     {
-    //         "address": address,
-    //         "confirmedBalance": {"confirmations": confirmCount, "balance": 120.00},
-    //         "lastMinedBalance": {"confirmations": 1, "balance": 115.00},
-    //         "pendingBalance": {"confirmations": 0, "balance": 170.20}
-    //     }
-    // )
-
     res.setHeader('Content-Type', 'application/json');
     res.send(
         {
@@ -92,10 +80,16 @@ module.exports.postNewTransaction = (req, res, next) => {
     let hasBalance = (main.balances[newTransaction.from.toString()] - newTransaction.value) > 0;
 
     if (hasBalance){
+        newTransaction.transactionHash = transactionHash;
         main.pendingTransactions.push(newTransaction);
 
         main.balances[newTransaction.from.toString()] -= newTransaction.value;
-        main.balances[newTransaction.to.toString()] += newTransaction.value;
+        if(Number(main.balances[newTransaction.to.toString()]) > 0 ){
+            main.balances[newTransaction.to.toString()] += newTransaction.value;
+        }
+        else{
+            main.balances[newTransaction.to.toString()] = Number(newTransaction.value);
+        }
 
         res.setHeader('Content-Type', 'application/json');
         res.status(200);

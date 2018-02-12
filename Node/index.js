@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-let faucetAddress = "a1d15353e7dba1c2271c68bd4ea58032af8b46ce93d5b2354587f5ce58139c8e";
+let faucetAddress = "c3293572dbe6ebc60de4a20ed0e21446cae66b17";
 let getGenesisBlock = () => {
     return new Block(
         0, //index
