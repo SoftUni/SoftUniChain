@@ -49,14 +49,23 @@ module.exports.getNodeBalanceByAddress = (req,res) => {
     let confirmCount = parseInt(req.params['confirmCount']);
 
     // TODO: send correct data
+    // res.setHeader('Content-Type', 'application/json');
+    // res.send(
+    //     {
+    //         "address": address,
+    //         "confirmedBalance": {"confirmations": confirmCount, "balance": 120.00},
+    //         "lastMinedBalance": {"confirmations": 1, "balance": 115.00},
+    //         "pendingBalance": {"confirmations": 0, "balance": 170.20}
+    //     }
+    // )
 
     res.setHeader('Content-Type', 'application/json');
     res.send(
         {
             "address": address,
-            "confirmedBalance": {"confirmations": confirmCount, "balance": 120.00},
-            "lastMinedBalance": {"confirmations": 1, "balance": 115.00},
-            "pendingBalance": {"confirmations": 0, "balance": 170.20}
+            "confirmedBalance": main.balances[address.toString()],
+            "lastMinedBalance": main.balances[address.toString()],
+            "pendingBalance": main.balances[address.toString()]
         }
     )
 }
@@ -71,15 +80,32 @@ module.exports.postNewTransaction = (req,res) => {
     let timestamp = new Date(newTransaction.dateCreated).getTime();
     let transactionHash = CryptoJS.SHA256(newTransaction.from + newTransaction.to + newTransaction.value + newTransaction.senderPubKey + newTransaction.senderSignature + newTransaction.timestamp).toString();
 
-    main.pendingTransactions.push(newTransaction);
+    // CHECK IF SENDER HAS BALANCE
+    let hasBalance = (main.balances[newTransaction.from.toString()] - newTransaction.value) > 0;
 
-    res.setHeader('Content-Type', 'application/json');
-    res.send(
-        {
-            "dateReceived": new Date().toString(),
-            "transactionHash": transactionHash
-        }
-    )
+    if (hasBalance){
+        main.pendingTransactions.push(newTransaction);
+
+        main.balances[newTransaction.from.toString()] -= newTransaction.value;
+        main.balances[newTransaction.to.toString()] += newTransaction.value;
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send(
+            {
+                "dateReceived": new Date().toString(),
+                "transactionHash": transactionHash
+            }
+        )
+    }
+    else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(
+            {
+                "error": "Nqqsh pari chuek"
+            }
+        )
+    }
+
 }
 
 //done
@@ -125,7 +151,6 @@ module.exports.newBlockNotify = (req,res) => {
 module.exports.getAllPeers = (req,res) => {
 
     // Return all known peers
-
     res.setHeader('Content-Type', 'application/json');
     res.send(main.peers);
 }

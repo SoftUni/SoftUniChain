@@ -128,6 +128,8 @@ module.exports.postPOW = (req, res) => {
 
         main.blockchain.push(newBlock);
         main.miningJobs[minerAddress.toString()] = '';
+
+        main.balances[minerAddress.toString()] += main.reward;
     }
 
     return pow;

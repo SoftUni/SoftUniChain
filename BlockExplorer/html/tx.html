@@ -9,12 +9,12 @@
     <meta name="keywords"
           content="blockchain, explorer, testnet, etherchain">
     <meta name="theme-color" content="#18bc9c">
-    <link rel="icon" href="css/blockchainIcon.png">
-    <title>Search - BlockChain Explorer</title>
+    <link rel="icon" href="../css/blockchainIcon.png">
+    <title>Transaction - BlockChain Explorer</title>
     <!-- Bootstrap core CSS-->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.datatables.net/r/bs/dt-1.10.9/datatables.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.min.css">
+    <link rel="stylesheet" href="../css/datatables.min.css">
+    <link rel="stylesheet" href="../css/default.min.css">
     <style>
         body {
             padding-top: 50px;
@@ -27,7 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/2.0.7/bignumber.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
-    <script src="dateformat.js"></script>
+    <script src="../dateformat.js"></script>
 
 </head>
 <body>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.html" title="TestNet" class="navbar-brand">
+            <a href="../index.html" title="TestNet" class="navbar-brand">
                 <span class="glyphicon glyphicon-link"></span> TestNet Explorer</a></div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -60,6 +60,13 @@
                         class="glyphicon glyphicon-list-alt"></span> Accounts<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="acounts.html">Accounts</a></li>
+                    </ul>
+                </li>
+				<li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-toggle"><span
+                        class="glyphicon glyphicon-list-alt"></span> Nodes<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="nodes.html">Nodes</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -87,9 +94,51 @@
         </div>
     </div>
 </nav>
-<div id="error" class="container">
-    <div role="alert" style="margin-top:50px" class="alert alert-danger">Error - invalid string!
-    </div>
+<div id="tx" class="container"><h3>Transaction Details</h3>
+    <table class="table table-condensed table-responsive">
+        <tr>
+            <th>Hash value:</th>
+            <td ><span id="hash"></span></td>
+        </tr>
+        <tr>
+            <th>Block:</th>
+            <td><a href=""><span id="block"></span></a></td>
+        </tr>
+        <tr>
+            <th>Time:</th>
+            <td><span id="time"></span> </td>
+        </tr>
+        <tr>
+            <th>Sent from:</th>
+            <td><a href=""><span id="from"></span></a></td>
+        </tr>
+        <tr>
+            <th>Conformations:</th>
+            <td>
+                <a href=""><span id="to"></span></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Amount:</th>
+            <td><b id="account"></b></td>
+        </tr>
+        <tr>
+            <th>Gas Price:</th>
+            <td><span id="gasPrice"></span></td>
+        </tr>
+        <tr>
+            <th>Gas Limit:</th>
+            <td><span id="gasLimit"></span></td>
+        </tr>
+        <tr>
+            <th>Total Gas Used:</th>
+            <td><span id="gasUsed"></span></td>
+        </tr>
+		<tr>
+            <th>Account Nonce:</th>
+            <td><span id="accountNonce"></span></td>
+        </tr>
+    </table>
 </div>
 <hr>
 <div class="container">
@@ -97,8 +146,38 @@
         <a href="https://www.etherchain.org">www.etherchain.org</a> | Powered by Parity v1.7.8</p>
     </footer>
 </div>
-<script>
+<!--<script>
+    var txHash=GetQueryString("id");
+    var txUrl="https://etherchain.org/api/tx/"+txHash;
+    $.getJSON(txUrl, function (result) {
+        var result = eval(result);
+        console.log(result);
+        console.log(txUrl);
+        if(result.data.length==0){
+            window.location.href="search.html";
+        }else {
+        var time=new Date(result.data[0].time).format("yyyy-MM-dd hh:mm:ss");
+        $("#hash").append(result.data[0].hash);
+        $("#account").append((result.data[0].amount / 1000000000000000000) + " Ether");
+        $("#gasLimit").append(result.data[0].gasLimit);
+        $("#gasUsed").append(result.data[0].gasUsed);
+        $("#gasPrice").append(result.data[0].price);
+        $("#accountNonce").append(result.data[0].accountNonce);
+        $("#time").append(time);
+        $("#block").append(result.data[0].block_id);
+        $("#from").append(result.data[0].sender);
+        $("#to").append(result.data[0].recipient);
+        }
+    })
 
-</script>
+
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]);
+            return null;
+        }
+</script>-->
 </body>
 </html>

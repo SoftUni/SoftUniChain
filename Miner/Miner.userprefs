@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{CDE53E0B-7A78-48EE-873A-2BC5B32985B6}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Miner/Program.cs">
     <Files>
-      <File FileName="Miner/Program.cs" Line="99" Column="53" />
+      <File FileName="Miner/Program.cs" Line="30" Column="71" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x64" />

@@ -25,7 +25,6 @@ namespace Miner
             String nodeIpAddress = args[0];
             String minerAddress = args[1];
 
-
             WebResponse response = null;
             HttpStatusCode statusCode = HttpStatusCode.RequestTimeout;
 

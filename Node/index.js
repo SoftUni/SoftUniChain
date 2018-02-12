@@ -5,16 +5,30 @@ let CryptoJS = require("crypto-js");
 let handlers = require('./handlers')
 
 let Block = require("./model/block")
+let Transaction = require("./model/transaction")
 
 const port = 5555
 const app = express()
 
 app.use(bodyParser.json())
 
+let faucetAddress = "a1d15353e7dba1c2271c68bd4ea58032af8b46ce93d5b2354587f5ce58139c8e";
 let getGenesisBlock = () => {
     return new Block(
         0, //index
-        [], // transactions array
+        [
+            new Transaction(
+            "0x0",          // fromAddress
+            faucetAddress,   // toAddress
+            1000000000000, // transactionValue,
+            "",             // senderPubKey
+            "",             //  senderSignature,
+            "",             // transactionHash,
+            Date.now(),     // dateReceived,
+            0,          // minedInBlockIndex,
+            true           // paid
+            )
+        ], // transactions array
         5,  // difficulty
         "d279fa6a31ae4fb07cfd9cf7f35cc013cf20a",  // previous block hash
         "f582d57711a618e69d588ce93895d749858fa95b", // mined by
@@ -29,6 +43,12 @@ module.exports.pendingTransactions = [];
 module.exports.miningJobs = [];
 module.exports.difficulty = 5;
 module.exports.peers = [];
+balances = [];
+balances[faucetAddress.toString()] = 12398178923123;
+module.exports.balances = balances;
+
+
+module.exports.reward = 25;
 
 app.get('/', handlers.Node.index);
 app.get('/info', handlers.Node.getNodeInfo);
@@ -38,9 +58,6 @@ app.get('/balance/:address/confirmations/:confirmCount', handlers.Node.getNodeBa
 app.post('/transactions/new', handlers.Node.postNewTransaction);
 app.get('/transactions/:tranHash/info', handlers.Node.getTransactionInfo);
 app.get('/transactions/pending', handlers.Node.getPendingTransactiosn);
-
-app.get('/mining/jobs', handlers.Node.getMiningJobs);
-
 app.post('/blocks/notify', handlers.Node.newBlockNotify);
 app.get('/peers', handlers.Node.getAllPeers);
 app.post('/peers', handlers.Node.postNewPeer);
