@@ -84,10 +84,6 @@ module.exports.miningJob = (minerAddress) => {
     return jobForMining;
 }
 
-// module.exports.calculateHash = (index, previousHash, timestamp, data, nonce) => {
-//     return CryptoJS.SHA256(index + previousHash + timestamp + data + nonce).toString();
-// };
-
 module.exports.isValidPOW = (pow) => {
     let miningJob = main.miningJobs[pow.minedBy];
     let validHash = this.calculateHash(miningJob.index, miningJob.prevBlockHash, pow.timestamp, miningJob.transactionsHash, pow.nonce)
@@ -123,16 +119,11 @@ module.exports.postPOW = (req, res) => {
         pow.blockHash
     );
 
-    console.log(newBlock);
-
     if (this.isValidNewBlock(newBlock, previousBlock)){
-        console.log("VALID BLOCK !");
-        console.log(main.pendingTransactions);
         main.miningJobs[minerAddress.toString()].transactions.forEach((transaction)=> {
             main.pendingTransactions = main.pendingTransactions.filter(function( tran ) {
                 return tran.index !== transaction.index;
             });
-            console.log(main.pendingTransactions);
         })
 
         main.blockchain.push(newBlock);
