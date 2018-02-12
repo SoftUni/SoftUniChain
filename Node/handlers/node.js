@@ -125,7 +125,6 @@ module.exports.newBlockNotify = (req,res) => {
 module.exports.getAllPeers = (req,res) => {
 
     // Return all known peers
-
     res.setHeader('Content-Type', 'application/json');
     res.send(main.peers);
 }
