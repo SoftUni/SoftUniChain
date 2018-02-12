@@ -22,15 +22,15 @@
         </p>
 
         <p>
-            @if (Model != null && !string.IsNullOrEmpty(Model.TransactionHash))
+            @if (Model != null && !string.IsNullOrEmpty(Model.transactionHash))
             {
-                @Html.DisplayTextFor(x => x.MessageResponse)
+               <span>TxID: </span> <a href="/">@Model.transactionHash </a>
             }
 
-            @if (Model != null && !string.IsNullOrEmpty(Model.MessageResponse))
+            @*@if (Model != null && !string.IsNullOrEmpty(Model.MessageResponse))
             {
                 @Html.DisplayTextFor(x => x.MessageResponse)
-            }
+            }*@
 
         </p>
     </div>
