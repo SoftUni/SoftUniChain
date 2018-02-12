@@ -9,13 +9,17 @@ let EC = require('elliptic').ec;
 let ec = new EC('secp256k1');
 
 //done
-module.exports.index = (req, res) => {
+module.exports.index = (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
     res.send('SoftUni Chain Blockchain Node')
 }
 
 // TODO: confirmed transactions count, commulativedifficulty
-module.exports.getNodeInfo = (req, res) => {
+module.exports.getNodeInfo = (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
     res.send(
         {
             "about": "SoftUniChain/0.9-csharp",
@@ -31,20 +35,24 @@ module.exports.getNodeInfo = (req, res) => {
 }
 
 //done
-module.exports.getNodeBlocks = (req,res) => {
+module.exports.getNodeBlocks = (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
     res.send(main.blockchain)
 }
 
 //done
-module.exports.getNodeBlockByIndex = (req,res) => {
+module.exports.getNodeBlockByIndex = (req, res, next) => {
     let index = req.params.index;
     res.setHeader('Content-Type', 'application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
     res.send(main.blockchain[index]);
 }
 
 // TODO: correct balance data by address
-module.exports.getNodeBalanceByAddress = (req,res) => {
+module.exports.getNodeBalanceByAddress = (req, res, next) => {
     let address = req.params['address'];
     let confirmCount = parseInt(req.params['confirmCount']);
 
@@ -70,7 +78,7 @@ module.exports.getNodeBalanceByAddress = (req,res) => {
     )
 }
 
-module.exports.postNewTransaction = (req,res) => {
+module.exports.postNewTransaction = (req, res, next) => {
     let newTransaction = req.body;
 
     // TODO : VERSION 2 VERIFY TRANSACTION SIGNATURE
@@ -90,6 +98,7 @@ module.exports.postNewTransaction = (req,res) => {
         main.balances[newTransaction.to.toString()] += newTransaction.value;
 
         res.setHeader('Content-Type', 'application/json');
+        res.status(200);
         res.send(
             {
                 "dateReceived": new Date().toString(),
@@ -99,6 +108,7 @@ module.exports.postNewTransaction = (req,res) => {
     }
     else {
         res.setHeader('Content-Type', 'application/json');
+        res.status(400);
         res.send(
             {
                 "error": "Nqqsh pari chuek"
@@ -109,7 +119,7 @@ module.exports.postNewTransaction = (req,res) => {
 }
 
 //done
-module.exports.getMiningBlock = (req, res) => {
+module.exports.getMiningBlock = (req, res, next) => {
     let minerAddress = req.params['address'];
     let miningJob = blockchain.miningJob(minerAddress);
 
@@ -118,7 +128,7 @@ module.exports.getMiningBlock = (req, res) => {
 }
 
 // TODO: send correct data
-module.exports.getTransactionInfo = (req,res) => {
+module.exports.getTransactionInfo = (req, res, next) => {
     let tranHash = req.params['tranHash'];
     res.setHeader('Content-Type', 'application/json');
     res.send(
@@ -137,7 +147,7 @@ module.exports.getTransactionInfo = (req,res) => {
 }
 
 //done
-module.exports.newBlockNotify = (req,res) => {
+module.exports.newBlockNotify = (req, res, next) => {
     let blockIndex = parseInt(req.body.index);
     res.setHeader('Content-Type', 'application/json');
     res.send(
@@ -148,7 +158,7 @@ module.exports.newBlockNotify = (req,res) => {
 }
 
 //done
-module.exports.getAllPeers = (req,res) => {
+module.exports.getAllPeers = (req, res, next) => {
 
     // Return all known peers
     res.setHeader('Content-Type', 'application/json');
@@ -156,7 +166,7 @@ module.exports.getAllPeers = (req,res) => {
 }
 
 //done
-module.exports.postNewPeer = (req,res) => {
+module.exports.postNewPeer = (req, res, next) => {
     let nodeUrl = req.body.url;
 
     // Add new peer.
@@ -171,7 +181,7 @@ module.exports.postNewPeer = (req,res) => {
 }
 
 //done
-module.exports.postPOW = (req,res) => {
+module.exports.postPOW = (req, res, next) => {
     //Receive mining job done from miner and assert it
     console.log(req.body);
     let jobDone = blockchain.postPOW(req, res);
@@ -180,13 +190,13 @@ module.exports.postPOW = (req,res) => {
 }
 
 //done
-module.exports.getMiningJobs = (req, res) => {
+module.exports.getMiningJobs = (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(main.miningJobs);
 }
 
 //done
-module.exports.getPendingTransactiosn = (req, res) => {
+module.exports.getPendingTransactiosn = (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(main.pendingTransactions);
 }
