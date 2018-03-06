@@ -47,8 +47,8 @@ def existing_private_key_to_address(private_key_hex):
     print("blockchain address:", addr)
 
 
-def sign_transaction(recipient_address: str, value: int, dateCreated: str,
-                     sender_priv_key_hex: str):
+def sign_transaction(recipient_address: str, value: int, fee: int,
+                     dateCreated: str, sender_priv_key_hex: str):
     print("Generate and sign a transaction")
     print("-------------------------------")
 
@@ -63,9 +63,10 @@ def sign_transaction(recipient_address: str, value: int, dateCreated: str,
     tran = {
         'from': sender_address,
         'to': recipient_address,
+        'senderPubKey': pub_key_compressed,
         'value': value,
-        'dateCreated': dateCreated,
-        'senderPubKey': pub_key_compressed
+		'fee': fee,
+        'dateCreated': dateCreated
     }
     json_encoder = json.JSONEncoder(separators=(',',':'))
     tran_json = json_encoder.encode(tran)
@@ -87,6 +88,6 @@ existing_private_key_to_address("7e4670ae70c98d24f3662c172dc510a085578b9ccc717e6
 
 print()
 sign_transaction(
-    recipient_address="f51362b7351ef62253a227a77751ad9b2302f911", value=25,
-    dateCreated='2018-02-10T17:53:48.972Z',
+    recipient_address="f51362b7351ef62253a227a77751ad9b2302f911", value=25000,
+    dateCreated='2018-02-10T17:53:48.972Z', fee=10,
     sender_priv_key_hex="7e4670ae70c98d24f3662c172dc510a085578b9ccc717e6c2f4e547edd960a34")
