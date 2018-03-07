@@ -42,7 +42,8 @@ public class WalletCSharp
     public static string EncodeECPointHexCompressed(ECPoint point)
     {
         BigInteger x = point.XCoord.ToBigInteger();
-        return x.ToString(16) + Convert.ToInt32(!x.TestBit(0));
+        BigInteger y = point.YCoord.ToBigInteger();
+        return x.ToString(16) + Convert.ToInt32(y.TestBit(0));
     }
 
     private static string CalcRipeMD160(string text)
@@ -124,7 +125,7 @@ public class WalletCSharp
     }
 
     private static void CreateAndSignTransaction(string recipientAddress, int value, 
-        string iso8601datetime, string senderPrivKeyHex)
+        int fee, string iso8601datetime, string senderPrivKeyHex)
     {
         Console.WriteLine("Generate and sign a transaction");
         Console.WriteLine("-------------------------------");
@@ -143,9 +144,10 @@ public class WalletCSharp
         {
             from = senderAddress,
             to = recipientAddress,
-            value = value,
-            dateCreated = iso8601datetime,
             senderPubKey = senderPubKeyCompressed,
+            value,
+            fee,
+            dateCreated = iso8601datetime,
         };
         string tranJson = JsonConvert.SerializeObject(tran);
         Console.WriteLine("Transaction (JSON): {0}", tranJson);
@@ -161,9 +163,10 @@ public class WalletCSharp
         {
             from = senderAddress,
             to = recipientAddress,
-            value = value,
-            dateCreated = iso8601datetime,
             senderPubKey = senderPubKeyCompressed,
+            value,
+            fee,
+            dateCreated = iso8601datetime,
             senderSignature = new string[] 
             {
                 tranSignature[0].ToString(16),
@@ -182,11 +185,11 @@ public class WalletCSharp
         RandomPrivateKeyToAddress();
 
         Console.WriteLine();
-        ExistingPrivateKeyToAddress("a1d15353e7dba1c2271c68bd4ea58032af8b46ce93d5b2354587f5ce58139c8e");
+        ExistingPrivateKeyToAddress("7e4670ae70c98d24f3662c172dc510a085578b9ccc717e6c2f4e547edd960a34");
 
         CreateAndSignTransaction(
-            recipientAddress: "f51362b7351ef62253a227a77751ad9b2302f911", value: 25,
-            iso8601datetime: "2018-02-10T17:53:48.972Z",
+            recipientAddress: "f51362b7351ef62253a227a77751ad9b2302f911",
+            value: 25000, fee: 10, iso8601datetime: "2018-02-10T17:53:48.972Z",
             senderPrivKeyHex: "7e4670ae70c98d24f3662c172dc510a085578b9ccc717e6c2f4e547edd960a34");
     }
 }
